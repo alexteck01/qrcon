@@ -87,7 +87,7 @@ def salva_note():
 
     salva_su_supabase(id_oggetto, storico)
 
-return f"""
+    return f"""
 <pre>
 Note salvate correttamente per {id_oggetto}.
 <a href="/qrcon?id={id_oggetto}">⬅ Torna indietro</a>
@@ -112,7 +112,7 @@ def qrcon():
     storico_testo = ''.join(f"{ev} – {ts}\n" for ev, ts in reversed(eventi))
     note_correnti = storico["note"]
 
-return f"""
+    return f"""
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
