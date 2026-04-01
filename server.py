@@ -96,6 +96,9 @@ Note salvate correttamente per {id_oggetto}.
 # ---------------------------------------------------------
 # PAGINA PRINCIPALE
 # ---------------------------------------------------------
+@app.route("/")
+def home():
+    return "QRCON server attivo"
 @app.route("/qrcon")
 def qrcon():
     id_oggetto = request.args.get("id", "Sconosciuto")
