@@ -87,7 +87,7 @@ def salva_note():
 
     salva_su_supabase(id_oggetto, storico)
 
-    return f"""
+    return f """
 <pre>
 Note salvate correttamente per {id_oggetto}.
 <a href="/qrcon?id={id_oggetto}">⬅ Torna indietro</a>
@@ -114,7 +114,7 @@ def qrcon():
 
 
 ────────────────────────────────────
-return f"""
+return f """
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -125,7 +125,6 @@ return f"""
         background: #f2f2f2;
         width: 100%;
     }}
-
     .container {{
         width: 100%;
         padding: 16px;
@@ -177,7 +176,6 @@ return f"""
 </style>
 
 <div class="container">
-
     <div class="box">
         <div class="title">v11 – {evento}</div>
         🟢 Evento registrato<br>
@@ -191,7 +189,6 @@ return f"""
 
     <form action="/salva_note" method="POST">
         <input type="hidden" name="id" value="{id_oggetto}">
-
         <div class="box">
             <div class="title">Checklist</div>
             Scadenza assicurazione<br>
