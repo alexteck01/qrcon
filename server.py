@@ -5,6 +5,7 @@ from datetime import datetime
 import pytz
 
 app = Flask(__name__)
+
 # ---------------------------------------------------------
 # CONFIGURAZIONE SUPABASE
 # ---------------------------------------------------------
@@ -68,7 +69,7 @@ def determina_evento(storico):
 # REGISTRA EVENTO
 # ---------------------------------------------------------
 def registra_evento(id_oggetto, storico, evento):
-     roma = pytz.timezone("Europe/Rome")
+    roma = pytz.timezone("Europe/Rome")
     ora = datetime.now(roma).strftime("%d/%m/%Y – %H:%M:%S")
     salva_su_supabase(id_oggetto, {"evento": evento, "timestamp": ora})
     storico["eventi"].append((evento, ora))
@@ -94,6 +95,7 @@ Note salvate correttamente per {id_oggetto}.
 </pre>
 
 """
+
 # ---------------------------------------------------------
 # PAGINA PRINCIPALE
 # ---------------------------------------------------------
@@ -112,9 +114,8 @@ def qrcon():
     storico_testo = ''.join(f"{ev} – {ts}\n" for ev, ts in reversed(eventi))
     note_correnti = storico["note"]
 
-
-────────────────────────────────────
 return f """
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
