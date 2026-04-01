@@ -87,7 +87,7 @@ def salva_note():
 
     salva_su_supabase(id_oggetto, storico)
 
-    return f """
+return f """
 <pre>
 Note salvate correttamente per {id_oggetto}.
 <a href="/qrcon?id={id_oggetto}">⬅ Torna indietro</a>
@@ -174,7 +174,6 @@ return f """
         background: #0051a8;
     }}
 </style>
-
 <div class="container">
     <div class="box">
         <div class="title">v11 – {evento}</div>
