@@ -2,7 +2,7 @@ import json
 import requests
 from flask import Flask, request
 from datetime import datetime
-
+import pytz
 app = Flask(__name__)
 
 # ---------------------------------------------------------
@@ -68,7 +68,8 @@ def determina_evento(storico):
 # REGISTRA EVENTO
 # ---------------------------------------------------------
 def registra_evento(id_oggetto, storico, evento):
-    ora = datetime.now().strftime("%d/%m/%Y – %H:%M:%S")
+     roma = pytz.timezone("Europe/Rome")
+    ora = datetime.now(roma).strftime("%d/%m/%Y – %H:%M:%S")
     salva_su_supabase(id_oggetto, {"evento": evento, "timestamp": ora})
     storico["eventi"].append((evento, ora))
     return ora
@@ -111,74 +112,103 @@ def qrcon():
     storico_testo = ''.join(f"{ev} – {ts}\n" for ev, ts in reversed(eventi))
     note_correnti = storico["note"]
 
-    return f"""
+
+────────────────────────────────────
+return f"""
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
-.summary-arrow {{
-    font-size: 18px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}}
+    body {{
+        margin: 0;
+        padding: 0;
+        font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+        background: #f2f2f2;
+        width: 100%;
+    }}
 
-details summary::marker {{
-    display: none;
-}}
+    .container {{
+        width: 100%;
+        padding: 16px;
+        box-sizing: border-box;
+    }}
 
-details[open] .arrow {{
-    transform: rotate(90deg);
-}}
+    .box {{
+        background: white;
+        padding: 18px;
+        border-radius: 12px;
+        margin-bottom: 18px;
+        width: 100%;
+        box-sizing: border-box;
+        font-size: 18px;
+        line-height: 1.4;
+    }}
+
+    .title {{
+        font-size: 22px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }}
+
+    textarea {{
+        width: 100%;
+        box-sizing: border-box;
+        font-size: 17px;
+        padding: 12px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        resize: vertical;
+    }}
+
+    button {{
+        width: 100%;
+        padding: 16px;
+        font-size: 20px;
+        background: #007aff;
+        color: white;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        font-weight: 600;
+    }}
+
+    button:active {{
+        background: #0051a8;
+    }}
 </style>
 
-<pre>
+<div class="container">
+
+    <div class="box">
+        <div class="title">v11 – {evento}</div>
+        🟢 Evento registrato<br>
+        {ora}
+    </div>
+
+    <div class="box">
+        <div class="title">📜 Storico</div>
+        {storico_testo.replace("\\n", "<br>")}
+    </div>
+
+    <form action="/salva_note" method="POST">
+        <input type="hidden" name="id" value="{id_oggetto}">
+
+        <div class="box">
+            <div class="title">Checklist</div>
+            Scadenza assicurazione<br>
+            Scadenza revisione<br>
+            Scadenza bollo<br>
+            Vignetta svizzera<br>
+            Licenza<br>
+        </div>
+        <div class="box">
+            <div class="title">📝 Segnalazioni</div>
+            <textarea name="note" rows="8">{note_correnti}</textarea>
+        </div>
+        <button type="submit">💾 Salva</button>
+    </form>
+</div>
 ────────────────────────────────────
-            v11 – {evento}
-────────────────────────────────────
-
-🟢 {evento} registrata
-{ora}
-
-────────────────────────────────────
-📜 inizio/fine
-
-{storico_testo}
-────────────────────────────────────
-</pre>
-
-<form action="/salva_note" method="POST">
-<input type="hidden" name="id" value="{id_oggetto}">
-
-<details style="margin-bottom:15px;">
-  <summary class="summary-arrow">
-      <span class="arrow" style="transition:0.2s;">▶</span> Checklist
-  </summary>
-
-  <br>
-
-  <div style="font-size:16px; line-height:1.6; margin-left:20px;">
-      Scadenza assicurazione<br>
-      Scadenza revisione<br>
-      Scadenza bollo<br>
-      Vignetta svizzera<br>
-       Licenza<br>
-  </div>
-
-</details>
-
-<pre>
-📝 Segnalazioni
-</pre>
-
-<textarea name="note" rows="8" cols="40">{note_correnti}</textarea><br><br>
-
-<button type="submit">💾 Salva</button>
-</form>
-
-<pre>
-────────────────────────────────────
-</pre>
 """
-
 # ---------------------------------------------------------
 # AVVIO SERVER
 # ---------------------------------------------------------
