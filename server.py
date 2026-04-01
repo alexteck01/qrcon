@@ -92,6 +92,7 @@ return f"""
 Note salvate correttamente per {id_oggetto}.
 <a href="/qrcon?id={id_oggetto}">⬅ Torna indietro</a>
 </pre>
+
 """
 
 # ---------------------------------------------------------
