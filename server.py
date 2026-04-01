@@ -27,7 +27,6 @@ def salva_su_supabase(id_oggetto, dati):
     url = f"{SUPABASE_URL}/rest/v1/{SUPABASE_TABLE}"
     payload = {"id_oggetto": id_oggetto, "dati": dati}
     return requests.post(url, headers=headers, json=payload).json()
-
 # ---------------------------------------------------------
 # CARICA DA SUPABASE
 # ---------------------------------------------------------
