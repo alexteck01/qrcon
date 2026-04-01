@@ -89,12 +89,10 @@ def salva_note():
     salva_su_supabase(id_oggetto, storico)
 
 return f"""
-
 <pre>
 Note salvate correttamente per {id_oggetto}.
 <a href="/qrcon?id={id_oggetto}">⬅ Torna indietro</a>
 </pre>
-
 """
 
 # ---------------------------------------------------------
@@ -116,7 +114,6 @@ def qrcon():
     note_correnti = storico["note"]
 
 return f"""
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
@@ -205,7 +202,6 @@ return f"""
         <button type="submit">💾 Salva</button>
     </form>
 </div>
-
 """
 
 # ---------------------------------------------------------
