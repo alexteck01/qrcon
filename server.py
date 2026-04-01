@@ -3,8 +3,8 @@ import requests
 from flask import Flask, request
 from datetime import datetime
 import pytz
-app = Flask(__name__)
 
+app = Flask(__name__)
 # ---------------------------------------------------------
 # CONFIGURAZIONE SUPABASE
 # ---------------------------------------------------------
