@@ -92,8 +92,8 @@ def salva_note():
 Note salvate correttamente per {id_oggetto}.
 <a href="/qrcon?id={id_oggetto}">⬅ Torna indietro</a>
 </pre>
-"""
 
+"""
 # ---------------------------------------------------------
 # PAGINA PRINCIPALE
 # ---------------------------------------------------------
@@ -204,7 +204,7 @@ return f """
         <button type="submit">💾 Salva</button>
     </form>
 </div>
-────────────────────────────────────
+
 """
 # ---------------------------------------------------------
 # AVVIO SERVER
