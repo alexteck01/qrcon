@@ -128,7 +128,6 @@ def qrcon():
     Nota salvata ✔
 </div>
 
-
 <style>
     body {{
         margin: 0;
@@ -233,7 +232,6 @@ document.querySelector('form[action="/salva_note"]').addEventListener("submit", 
     });
 });
 </script>
-
 """
 
 # ---------------------------------------------------------
