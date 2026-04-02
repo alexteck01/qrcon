@@ -99,19 +99,12 @@ Note salvate correttamente per {id_oggetto}.
 @app.route("/")
 def home():
     return "QRCON server attivo"
-    
 @app.route("/qrcon")
 def qrcon():
     id_oggetto = request.args.get("id")
 
     storico = carica_da_supabase(id_oggetto) or {}
     note_correnti = storico.get("note", "")
-
-    return render_template(
-        "qrcon.html",
-        id_oggetto=id_oggetto,
-        note_correnti=note_correnti
-    )
 
     return f"""
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -173,22 +166,18 @@ def qrcon():
         background: #0051a8;
     }}
 </style>
+
 <div class="container">
     <div class="box">
-        <div class="title">v11 – {evento}</div>
-        🟢 Evento registrato<br>
-        {ora}
+        <div class="title">QRCON</div>
+        ID oggetto: {id_oggetto}
     </div>
 
-    <div class="box">
-        <div class="title">📜 Storico</div>
-        {storico_testo.replace("\\n", "<br>")}
-    </div>
-     <form action='/salva_note' method='POST'>
-        <input type='hidden' name='id' value='{id_oggetto}'>
+    <form action="/salva_note" method="POST">
+        <input type="hidden" name="id" value="{id_oggetto}">
 
-        <div>
-            <h3>Checklist</h3>
+        <div class="box">
+            <div class="title">Checklist</div>
             Scadenza assicurazione<br>
             Scadenza revisione<br>
             Scadenza bollo<br>
@@ -197,17 +186,16 @@ def qrcon():
             Libretto - OK<br>
         </div>
 
-        <div>
-            <h3>Segnalazioni</h3>
-            <textarea name='note' rows='8'>{note_correnti}</textarea>
+        <div class="box">
+            <div class="title">Segnalazioni</div>
+            <textarea name="note" rows="8">{note_correnti}</textarea>
         </div>
 
-        <button type='submit'>💾 Salva</button>
+        <button type="submit">💾 Salva</button>
     </form>
-
-
-   
 </div>
+"""
+    
 
 """
 
