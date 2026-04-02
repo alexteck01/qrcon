@@ -114,17 +114,26 @@ def scan():
 return f"""
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
+    body {
+        margin: 0;
+        padding: 0;
+        background: #f2f2f2;
+        font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 600px; /* altezza minima per 6,1" */
+    }
 
     .container {
-        width: 380px;       /* larghezza perfetta per un box centrale */
-        height: auto;
+        width: 100%;
         display: flex;
         justify-content: center;
     }
 
     .box {
         background: white;
-        width: 380px;
+        width: 360px;       /* perfetto per 6,1" */
         padding: 22px;
         border-radius: 14px;
         text-align: center;
@@ -155,6 +164,8 @@ return f"""
         background: #0051a8;
     }
 </style>
+
+
 <div class="container">
     <div class="box">
         <div class="title">Alessio</div>
