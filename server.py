@@ -98,15 +98,16 @@ def home():
     return "QRCON server attivo"
 @app.route("/qrcon")
 def qrcon():
-    id_oggetto = request.args.get("id", "Sconosciuto")
+    id_oggetto = request.args.get("id")
 
     storico = carica_da_supabase(id_oggetto)
-    evento = determina_evento(storico)
-    ora = registra_evento(id_oggetto, storico, evento)
+     note_correnti = storico.get("note", "")
 
-    eventi = storico["eventi"]
-    storico_testo = ''.join(f"{ev} – {ts}\n" for ev, ts in reversed(eventi))
-    note_correnti = storico["note"]
+    return render_template(
+        "qrcon.html",
+        id_oggetto=id_oggetto,
+        note_correnti=note_correnti
+    )
 
     return f"""
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
