@@ -126,7 +126,7 @@ def qrcon():
     # formatta storico a cascata
     storico_testo = ""
     for e in eventi:
-    storico_testo += f"{e[0]} – {e[1]}\n"
+        storico_testo += f"{e[0]} – {e[1]}\n"
 
     return f"""
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
