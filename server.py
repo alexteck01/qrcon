@@ -110,16 +110,23 @@ def qrcon():
 
     storico = carica_da_supabase(id_oggetto)
     eventi = storico["eventi"]
-    note_correnti = storico["note"]
-
-    # testo storico formattato
-    storico_testo = "\n".join([f"{e[0]} – {e[1]}" for e in eventi])
-
+    note_correnti = storico["note"] 
+    
     # determina IN/OUT
     evento = determina_evento(storico)
 
     # registra evento
     ora = registra_evento(id_oggetto, storico, evento)
+    
+    # ricarica storico aggiornato
+    storico = carica_da_supabase(id_oggetto)
+    eventi = storico["eventi"]
+    note_correnti = storico.get["note",""]
+    
+    # formatta storico a cascata
+    storico_testo = ""
+    for e in eventi:
+    storico_testo += f"{e[0]} – {e[1]}\n"
 
     return f"""
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -151,7 +158,7 @@ def qrcon():
 
         <div class="box">
             <div class="title">Segnalazioni</div>
-            <textarea name="note" rows="8">{note_correnti}</textarea>
+            <textarea name="note" rows="8" font.size=14px>{note_correnti}</textarea>
         </div>
 
         <button type="submit">💾 Salva</button>
