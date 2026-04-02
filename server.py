@@ -133,7 +133,7 @@ return f"""
 
     .box {
         background: white;
-        width: 360px;       /* perfetto per 6,1" */
+        width: 360px;
         padding: 22px;
         border-radius: 14px;
         text-align: center;
