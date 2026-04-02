@@ -101,7 +101,7 @@ def salva_note():
 @app.route("/")
 def home():
     return "QRCON server attivo"
-    @app.route("/qrcon")
+@app.route("/qrcon")
 def qrcon():
     id_oggetto = request.args.get("id")
 
