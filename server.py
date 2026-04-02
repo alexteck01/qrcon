@@ -113,41 +113,46 @@ def scan():
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 return f"""
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <style>
-    body {{
+    body {
         margin: 0;
         padding: 0;
         background: #f2f2f2;
         font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+
+        /* CENTRATURA IN PIXEL */
+        width: 1170px;      /* larghezza iPhone 6.1" */
+        height: 2532px;     /* altezza iPhone 6.1" */
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100dvh;
-    }}
+    }
 
-    .container {{
-        width: 90%;
-        max-width: 380px; /* perfetto per 6,1 pollici */
-    }}
+    .container {
+        width: 380px;       /* larghezza perfetta per un box centrale */
+        height: auto;
+        display: flex;
+        justify-content: center;
+    }
 
-    .box {{
+    .box {
         background: white;
+        width: 380px;
         padding: 22px;
         border-radius: 14px;
         text-align: center;
         font-size: 20px;
         line-height: 1.5;
         box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    }}
+    }
 
-    .title {{
+    .title {
         font-size: 26px;
         font-weight: bold;
         margin-bottom: 12px;
-    }}
+    }
 
-    a {{
+    a {
         display: inline-block;
         margin-top: 18px;
         padding: 12px 20px;
@@ -157,13 +162,12 @@ return f"""
         border-radius: 10px;
         font-size: 18px;
         font-weight: 600;
-    }}
+    }
 
-    a:active {{
+    a:active {
         background: #0051a8;
-    }}
+    }
 </style>
-
 <div class="container">
     <div class="box">
         <div class="title">Alessio</div>
@@ -173,7 +177,6 @@ return f"""
     </div>
 </div>
 """
-
 
 # ---------------------------------------------------------
 # QRCON → mostra storico e note (NON registra eventi)
