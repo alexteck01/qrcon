@@ -114,19 +114,6 @@ def scan():
 return f"""
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-    body {
-        margin: 0;
-        padding: 0;
-        background: #f2f2f2;
-        font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif;
-
-        /* CENTRATURA IN PIXEL */
-        width: 1140px;      /* larghezza iPhone 6.1" */
-        height: 2530px;     /* altezza iPhone 6.1" */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
 
     .container {
         width: 380px;       /* larghezza perfetta per un box centrale */
