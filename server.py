@@ -170,7 +170,12 @@ def qrcon():
 <div class="container">
     <div class="box">
         <div class="title">QRCON</div>
-        ID oggetto: {id_oggetto}
+           🟢 Evento registrato<br>
+        {ora}
+    </div>
+        <div class="box">
+        <div class="title">📜 Storico</div>
+        {storico_testo.replace("\\n", "<br>")}
     </div>
 
     <form action="/salva_note" method="POST">
