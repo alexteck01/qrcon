@@ -113,6 +113,24 @@ def qrcon():
     
     # storico a cascata
     storico_testo = "<br>".join([f"{e[0]} – {e[1]}" for e in eventi])
+#-------------------------------------------------------
+SCANSIONE
+#-----------------------------------------------------
+@app.route("/scan")
+def scan():
+    id_oggetto = request.args.get("id")
+
+    # carica storico
+    storico = carica_da_supabase(id_oggetto)
+
+    # determina IN/OUT
+    evento = determina_evento(storico)
+
+    # registra evento
+    ora = registra_evento(id_oggetto, storico, evento)
+
+
+    
 
     return f"""
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -120,13 +138,19 @@ def qrcon():
 <div class="container">
     <div class="box">
         <div class="title">QRCON</div>
-        🟢 Id:{id_oggetto}
+         🟢 Evento registrato: {evento}<br>
+        {ora}<br><br>
+        <a href="/qrcon?id={id_oggetto}">📄 Vai allo storico</a>
+      </div>
     </div>
 
     <div class="box">
         <div class="title">📜 Storico</div>
         {storico_testo}
     </div>
+ <form action="/salva_note" method="POST">
+        <input type="hidden" name="id" value="{id_oggetto}">
+
 
     <form action="/salva_note" method="POST">
         <input type="hidden" name="id" value="{id_oggetto}">
