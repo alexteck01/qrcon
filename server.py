@@ -197,8 +197,8 @@ def qrcon():
         {storico_testo.replace("\\n", "<br>")}
     </div>
 
-    <form action="/salva_note" method="POST">
-        <input type="hidden" name="id" value="{id_oggetto}">
+    <form id="noteForm">
+        <input type="hidden" name="id" value="{{id_oggetto}}">
         <div class="box">
             <div class="title">Checklist</div>
             Scadenza assicurazione<br>
@@ -215,7 +215,7 @@ def qrcon():
     </form>
 </div>
 <script>
-document.querySelector('form[action="/salva_note"]').addEventListener("submit", function(e) {
+document.document.getElementById("noteForm").addEventListener("submit", function(e) {
     e.preventDefault(); // evita cambio pagina
 
     const formData = new FormData(this);
