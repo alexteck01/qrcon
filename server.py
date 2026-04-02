@@ -89,7 +89,7 @@ def salva_note():
 
     return f"""
 <pre>
-Note salvate correttamente per {id_oggetto}.
+Note salvate correttamente per {id_oggetto}.<br>
 <a href="/qrcon?id={id_oggetto}">⬅ Torna indietro</a>
 </pre>
 """
