@@ -114,7 +114,7 @@ def qrcon():
     # storico a cascata
     storico_testo = "<br>".join([f"{e[0]} – {e[1]}" for e in eventi])
 #-------------------------------------------------------
-SCANSIONE
+#SCANSIONE
 #-----------------------------------------------------
 @app.route("/scan")
 def scan():
