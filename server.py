@@ -121,8 +121,8 @@ return f"""
         font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif;
 
         /* CENTRATURA IN PIXEL */
-        width: 1170px;      /* larghezza iPhone 6.1" */
-        height: 2532px;     /* altezza iPhone 6.1" */
+        width: 1140px;      /* larghezza iPhone 6.1" */
+        height: 2530px;     /* altezza iPhone 6.1" */
         display: flex;
         justify-content: center;
         align-items: center;
