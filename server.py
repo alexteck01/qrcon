@@ -84,16 +84,14 @@ def salva_note():
 
     storico = carica_da_supabase(id_oggetto)
     storico["note"] = testo_note
-
     salva_su_supabase(id_oggetto, storico)
 
-    return """
-    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    <h2>Nota salvata</h2>
-    <p>La nota è stata salvata correttamente.</p>
-    <a href='/qrcon?id=%s'>Torna indietro</a>
-    """ % id_oggetto
-
+    return f"""
+<pre>
+Note salvate correttamente per {id_oggetto}.
+<a href="/qrcon?id={id_oggetto}">⬅ Torna indietro</a>
+</pre>
+"""
 
 # ---------------------------------------------------------
 # PAGINA PRINCIPALE
