@@ -123,7 +123,7 @@ return f"""
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100%;
+        height: 100dvh;
     }}
 
     .container {{
