@@ -111,6 +111,70 @@ def scan():
     
     return f"""
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background: #f2f2f2;
+        font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+
+        /* centratura verticale/orizzontale stabile */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        /* altezza minima per garantire centratura su 6.1" */
+        min-height: 700px;
+    }
+
+    .container {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .box {
+        background: white;
+
+        /* larghezza perfetta per iPhone 6.1" */
+        width: 360px;
+
+        /* padding calibrato */
+        padding: 24px;
+
+        border-radius: 16px;
+        text-align: center;
+
+        /* font leggibile su 6.1" */
+        font-size: 20px;
+        line-height: 1.5;
+
+        /* ombra stile iOS */
+        box-shadow: 0 4px 14px rgba(0,0,0,0.10);
+    }
+
+    .title {
+        font-size: 28px;
+        font-weight: 700;
+        margin-bottom: 14px;
+    }
+
+    a {
+        display: inline-block;
+        margin-top: 20px;
+        padding: 12px 22px;
+        background: #007aff;
+        color: white;
+        text-decoration: none;
+        border-radius: 12px;
+        font-size: 18px;
+        font-weight: 600;
+    }
+
+    a:active {
+        background: #0051a8;
+    }
+</style>
 <div class="container">
     <div class="box">
         <div class="title">Ale</div>
