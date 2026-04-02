@@ -194,8 +194,6 @@ def qrcon():
         <button type="submit">💾 Salva</button>
     </form>
 </div>
-"""
-    
 
 """
 
