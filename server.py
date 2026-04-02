@@ -27,6 +27,7 @@ def salva_su_supabase(id_oggetto, dati):
     url = f"{SUPABASE_URL}/rest/v1/{SUPABASE_TABLE}"
     payload = {"id_oggetto": id_oggetto, "dati": dati}
     return requests.post(url, headers=headers, json=payload).json()
+
 # ---------------------------------------------------------
 # CARICA DA SUPABASE
 # ---------------------------------------------------------
@@ -94,11 +95,15 @@ Note salvate correttamente per {id_oggetto}.
 """
 
 # ---------------------------------------------------------
-# PAGINA PRINCIPALE
+# HOME
 # ---------------------------------------------------------
 @app.route("/")
 def home():
     return "QRCON server attivo"
+
+# ---------------------------------------------------------
+# QRCON
+# ---------------------------------------------------------
 @app.route("/qrcon")
 def qrcon():
     id_oggetto = request.args.get("id")
@@ -119,64 +124,6 @@ def qrcon():
     return f"""
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-
-<style>
-    body {{
-        margin: 0;
-        padding: 0;
-        font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif;
-        background: #f2f2f2;
-        width: 100%;
-    }}
-    .container {{
-        width: 100%;
-        padding: 16px;
-        box-sizing: border-box;
-    }}
-
-    .box {{
-        background: white;
-        padding: 18px;
-        border-radius: 12px;
-        margin-bottom: 18px;
-        width: 100%;
-        box-sizing: border-box;
-        font-size: 18px;
-        line-height: 1.4;
-    }}
-
-    .title {{
-        font-size: 22px;
-        font-weight: bold;
-        margin-bottom: 10px;
-    }}
-
-    textarea {{
-        width: 100%;
-        box-sizing: border-box;
-        font-size: 17px;
-        padding: 12px;
-        border-radius: 8px;
-        border: 1px solid #ccc;
-        resize: vertical;
-    }}
-
-    button {{
-        width: 100%;
-        padding: 16px;
-        font-size: 20px;
-        background: #007aff;
-        color: white;
-        border: none;
-        border-radius: 10px;
-        cursor: pointer;
-        font-weight: 600;
-    }}
-
-    button:active {{
-        background: #0051a8;
-    }}
-</style>
 <div class="container">
     <div class="box">
         <div class="title">QRCON</div>
