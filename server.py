@@ -83,9 +83,8 @@ def salva_note():
     id_oggetto = request.form.get("id")
     testo_note = request.form.get("note", "")
 
-    storico = carica_da_supabase(id_oggetto)
-    storico["note"] = testo_note
-    salva_su_supabase(id_oggetto, storico)
+    
+    salva_su_supabase(id_oggetto, {"note": testo_note})
 
     return f"""
 <pre>
@@ -121,9 +120,9 @@ def qrcon():
     # ricarica storico aggiornato
     storico = carica_da_supabase(id_oggetto)
     eventi = storico["eventi"]
-    note_correnti = storico.get["note",""]
+    note_correnti = storico["note"]
     
-    # formatta storico a cascata
+    # storico a cascata
     storico_testo = ""
     for e in eventi:
         storico_testo += f"{e[0]} – {e[1]}\n"
@@ -134,7 +133,7 @@ def qrcon():
 <div class="container">
     <div class="box">
         <div class="title">QRCON</div>
-        🟢 Evento registrato<br>
+        🟢 Evento registrato: {evento}<br>
         {ora}
     </div>
 
