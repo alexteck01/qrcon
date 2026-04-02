@@ -87,7 +87,12 @@ def salva_note():
 
     salva_su_supabase(id_oggetto, storico)
 
-    return "Nota salvata"
+    return """
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <h2>Nota salvata</h2>
+    <p>La nota è stata salvata correttamente.</p>
+    <a href='/qrcon?id=%s'>Torna indietro</a>
+    """ % id_oggetto
 
 
 # ---------------------------------------------------------
@@ -103,31 +108,9 @@ def qrcon():
     storico = carica_da_supabase(id_oggetto)
     note_correnti = storico.get("note", "")
 
-    return render_template(
-        "qrcon.html",
-        id_oggetto=id_oggetto,
-        note_correnti=note_correnti
-    )
 
     return f"""
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<div id="toast" style="
-    visibility:hidden;
-    min-width:200px;
-    background:#333;
-    color:#fff;
-    text-align:center;
-    border-radius:8px;
-    padding:14px;
-    position:fixed;
-    left:50%;
-    bottom:40px;
-    transform:translateX(-50%);
-    font-size:18px;
-    z-index:9999;
-">
-    Nota salvata ✔
-</div>
 
 <style>
     body {{
@@ -197,42 +180,31 @@ def qrcon():
         <div class="title">📜 Storico</div>
         {storico_testo.replace("\\n", "<br>")}
     </div>
+     <form action='/salva_note' method='POST'>
+        <input type='hidden' name='id' value='{id_oggetto}'>
 
-    <form id="noteForm">
-        <input type="hidden" name="id" value="{{id_oggetto}}">
-        <div class="box">
-            <div class="title">Checklist</div>
+        <div>
+            <h3>Checklist</h3>
             Scadenza assicurazione<br>
             Scadenza revisione<br>
             Scadenza bollo<br>
             Vignetta svizzera<br>
-            Licenza<br>
+            Licenza - OK<br>
+            Libretto - OK<br>
         </div>
-        <div class="box">
-            <div class="title">📝 Segnalazioni</div>
-            <textarea name="note" rows="8">{note_correnti}</textarea>
+
+        <div>
+            <h3>Segnalazioni</h3>
+            <textarea name='note' rows='8'>{note_correnti}</textarea>
         </div>
-        <button type="submit">💾 Salva</button>
+
+        <button type='submit'>💾 Salva</button>
     </form>
+
+
+   
 </div>
-<script>
-document.document.getElementById("noteForm").addEventListener("submit", function(e) {
-    e.preventDefault(); // evita cambio pagina
 
-    const formData = new FormData(this);
-
-    fetch("/salva_note", {
-        method: "POST",
-        body: formData
-    })
-    .then(r => r.text())
-    .then(() => {
-        const t = document.getElementById("toast");
-        t.style.visibility = "visible";
-        setTimeout(() => { t.style.visibility = "hidden"; }, 2000);
-    });
-});
-</script>
 """
 
 # ---------------------------------------------------------
