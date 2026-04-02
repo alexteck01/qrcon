@@ -103,11 +103,22 @@ def home():
 def qrcon():
     id_oggetto = request.args.get("id")
 
-    storico = carica_da_supabase(id_oggetto) or {}
-    note_correnti = storico.get("note", "")
+    storico = carica_da_supabase(id_oggetto)
+    eventi = storico["eventi"]
+    note_correnti = storico["note"]
+
+    # testo storico formattato
+    storico_testo = "\n".join([f"{e[0]} – {e[1]}" for e in eventi])
+
+    # determina IN/OUT
+    evento = determina_evento(storico)
+
+    # registra evento
+    ora = registra_evento(id_oggetto, storico, evento)
 
     return f"""
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 
 <style>
     body {{
@@ -166,14 +177,14 @@ def qrcon():
         background: #0051a8;
     }}
 </style>
-
 <div class="container">
     <div class="box">
         <div class="title">QRCON</div>
-           🟢 Evento registrato<br>
+        🟢 Evento registrato<br>
         {ora}
     </div>
-        <div class="box">
+
+    <div class="box">
         <div class="title">📜 Storico</div>
         {storico_testo.replace("\\n", "<br>")}
     </div>
