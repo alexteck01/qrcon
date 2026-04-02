@@ -111,16 +111,69 @@ def scan():
 
     return f"""
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+return f"""
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+    body {{
+        margin: 0;
+        padding: 0;
+        background: #f2f2f2;
+        font-family: -apple-system, BlinkMacSystemFont, Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }}
+
+    .container {{
+        width: 90%;
+        max-width: 380px; /* perfetto per 6,1 pollici */
+    }}
+
+    .box {{
+        background: white;
+        padding: 22px;
+        border-radius: 14px;
+        text-align: center;
+        font-size: 20px;
+        line-height: 1.5;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }}
+
+    .title {{
+        font-size: 26px;
+        font-weight: bold;
+        margin-bottom: 12px;
+    }}
+
+    a {{
+        display: inline-block;
+        margin-top: 18px;
+        padding: 12px 20px;
+        background: #007aff;
+        color: white;
+        text-decoration: none;
+        border-radius: 10px;
+        font-size: 18px;
+        font-weight: 600;
+    }}
+
+    a:active {{
+        background: #0051a8;
+    }}
+</style>
 
 <div class="container">
     <div class="box">
-        <div class="title">QRCON</div>
-        🟢 Evento registrato: {evento}<br>
-        {ora}<br><br>
+        <div class="title">Alessio</div>
+        🟢 Evento registrato: <b>{evento}</b><br>
+        {ora}<br>
         <a href="/qrcon?id={id_oggetto}">📄 Vai allo storico</a>
     </div>
 </div>
 """
+
 
 # ---------------------------------------------------------
 # QRCON → mostra storico e note (NON registra eventi)
