@@ -72,7 +72,6 @@ def registra_evento(id_oggetto, storico, evento):
     roma = pytz.timezone("Europe/Rome")
     ora = datetime.now(roma).strftime("%d/%m/%Y – %H:%M:%S")
     salva_su_supabase(id_oggetto, {"evento": evento, "timestamp": ora})
-    storico["eventi"].append((evento, ora))
     return ora
 
 # ---------------------------------------------------------
@@ -83,7 +82,6 @@ def salva_note():
     id_oggetto = request.form.get("id")
     testo_note = request.form.get("note", "")
 
-    
     salva_su_supabase(id_oggetto, {"note": testo_note})
 
     return f"""
@@ -101,36 +99,15 @@ def home():
     return "QRCON server attivo"
 
 # ---------------------------------------------------------
-# QRCON
+# SCAN → registra IN/OUT
 # ---------------------------------------------------------
-@app.route("/qrcon")
-def qrcon():
-    id_oggetto = request.args.get("id")
-
-    storico = carica_da_supabase(id_oggetto)
-    eventi = storico["eventi"]
-    note_correnti = storico["note"] 
-    
-    # storico a cascata
-    storico_testo = "<br>".join([f"{e[0]} – {e[1]}" for e in eventi])
-#-------------------------------------------------------
-#SCANSIONE
-#-----------------------------------------------------
 @app.route("/scan")
 def scan():
     id_oggetto = request.args.get("id")
 
-    # carica storico
     storico = carica_da_supabase(id_oggetto)
-
-    # determina IN/OUT
     evento = determina_evento(storico)
-
-    # registra evento
     ora = registra_evento(id_oggetto, storico, evento)
-
-
-    
 
     return f"""
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -138,19 +115,34 @@ def scan():
 <div class="container">
     <div class="box">
         <div class="title">QRCON</div>
-         🟢 Evento registrato: {evento}<br>
+        🟢 Evento registrato: {evento}<br>
         {ora}<br><br>
         <a href="/qrcon?id={id_oggetto}">📄 Vai allo storico</a>
-      </div>
     </div>
+</div>
+"""
 
+# ---------------------------------------------------------
+# QRCON → mostra storico e note (NON registra eventi)
+# ---------------------------------------------------------
+@app.route("/qrcon")
+def qrcon():
+    id_oggetto = request.args.get("id")
+
+    storico = carica_da_supabase(id_oggetto)
+    eventi = storico["eventi"]
+    note_correnti = storico["note"]
+
+    storico_testo = "<br>".join([f"{e[0]} – {e[1]}" for e in eventi])
+
+    return f"""
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<div class="container">
     <div class="box">
         <div class="title">📜 Storico</div>
         {storico_testo}
     </div>
- <form action="/salva_note" method="POST">
-        <input type="hidden" name="id" value="{id_oggetto}">
-
 
     <form action="/salva_note" method="POST">
         <input type="hidden" name="id" value="{id_oggetto}">
@@ -167,7 +159,7 @@ def scan():
 
         <div class="box">
             <div class="title">Segnalazioni</div>
-            <textarea name="note" rows="8" font.size=14px>{note_correnti}</textarea>
+            <textarea name="note" rows="8">{note_correnti}</textarea>
         </div>
 
         <button type="submit">💾 Salva</button>
