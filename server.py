@@ -87,7 +87,7 @@ def salva_note():
 
     salva_su_supabase(id_oggetto, storico)
 
-    return {"status": "ok", "messaggio": "nota salvata"}
+    return "Nota salvata"
 
 
 # ---------------------------------------------------------
@@ -110,6 +110,24 @@ def qrcon():
 
     return f"""
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<div id="toast" style="
+    visibility:hidden;
+    min-width:200px;
+    background:#333;
+    color:#fff;
+    text-align:center;
+    border-radius:8px;
+    padding:14px;
+    position:fixed;
+    left:50%;
+    bottom:40px;
+    transform:translateX(-50%);
+    font-size:18px;
+    z-index:9999;
+">
+    Nota salvata ✔
+</div>
+
 
 <style>
     body {{
@@ -197,6 +215,25 @@ def qrcon():
         <button type="submit">💾 Salva</button>
     </form>
 </div>
+<script>
+document.querySelector('form[action="/salva_note"]').addEventListener("submit", function(e) {
+    e.preventDefault(); // evita cambio pagina
+
+    const formData = new FormData(this);
+
+    fetch("/salva_note", {
+        method: "POST",
+        body: formData
+    })
+    .then(r => r.text())
+    .then(() => {
+        const t = document.getElementById("toast");
+        t.style.visibility = "visible";
+        setTimeout(() => { t.style.visibility = "hidden"; }, 2000);
+    });
+});
+</script>
+
 """
 
 # ---------------------------------------------------------
