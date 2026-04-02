@@ -111,9 +111,6 @@ def qrcon():
     eventi = storico["eventi"]
     note_correnti = storico["note"] 
     
-    # determina IN/OUT
-    evento = determina_evento(storico)
-    
     # storico a cascata
     storico_testo = "<br>".join([f"{e[0]} – {e[1]}" for e in eventi])
 
