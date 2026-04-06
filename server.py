@@ -135,6 +135,7 @@ def qrcon():
     note_correnti = storico["note"]
 
     storico_testo = "<br>".join([f"{e[0]} – {e[1]}" for e in eventi])
+    
 return f"""
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="/static/style.css">
@@ -179,7 +180,6 @@ return f"""
     </div>
 </div>
 """
-
 
 # ---------------------------------------------------------
 # AVVIO SERVER
