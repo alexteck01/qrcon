@@ -73,7 +73,7 @@ def registra_evento(id_oggetto, storico, evento):
     ora = datetime.now(roma).strftime("%d/%m/%Y – %H:%M:%S")
     salva_su_supabase(id_oggetto, {"evento": evento, "timestamp": ora})
     return ora
-
+    
 # ---------------------------------------------------------
 # SALVA NOTE
 # ---------------------------------------------------------
@@ -113,8 +113,6 @@ def scan():
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="/static/style.css">
 
-
-
 <div class="container">
     <div class="box">
         <div class="title">Ale</div>
@@ -123,7 +121,6 @@ def scan():
         <a href="/qrcon?id={id_oggetto}">📄 Vai allo storico</a>
     </div>
 </div>
-
 """
 
 # ---------------------------------------------------------
@@ -142,7 +139,6 @@ def qrcon():
     return f"""
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="/static/style.css">
-
 
 <div class="container">
     <div class="box">
@@ -179,9 +175,6 @@ def qrcon():
         <a class="btn" href="/qrcon?id={id_oggetto}">Torna allo storico</a>
     </div>
 </div>
-"""
-
-
         <button type="submit">💾 Salva</button>
     </form>
 </div>
