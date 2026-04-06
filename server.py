@@ -117,7 +117,7 @@ def scan():
 <div class="container">
     <div class="box">
         <div class="title">Ale</div>
-        🟢 Evento registrato: <b>{evento}</b><br>
+        Evento registrato: <b>{evento}</b><br>
         {ora}<br>
     </div>
 </div>
@@ -143,7 +143,7 @@ def scan():
         <form action="/salva_note" method="POST">
             <input type="hidden" name="id" value="{id_oggetto}">
             <textarea name="note" rows="10" style="width:70%;">{note_correnti}</textarea>
-            <button type="submit">💾 Salva</button>
+            <button type="submit">Salva</button>
         </form>
     </div>
 </div>
@@ -151,7 +151,7 @@ def scan():
 <!-- BOX STORICO -->
 <div class="container">
     <div class="box">
-        <div class="title">📜 Storico</div>
+        <div class="title">Storico</div>
         {storico_testo.replace("\\n", "<br>")}
     </div>
 </div>
