@@ -112,14 +112,17 @@ def scan():
     return f"""  
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="/static/style.css">
-
 <div class="container">
     <div class="box">
-        <div class="title">Ale</div>
-        🟢 Evento registrato: <b>{evento}</b><br>
-        {ora}<br>
+        <div class="title">QRCON</div>
+        🟢 Evento registrato<br>
+        {ora}
     </div>
-</div>
+
+    <div class="box">
+        <div class="title">📜 Storico</div>
+        {storico_testo.replace("\\n", "<br>")}
+    </div>
 
     <form action="/salva_note" method="POST">
         <input type="hidden" name="id" value="{id_oggetto}">
@@ -140,13 +143,10 @@ def scan():
         </div>
 
         <button type="submit">💾 Salva</button>
-
-    <div class="box">
-        <div class="title">📜 Storico</div>
-        {storico_testo.replace("\\n", "<br>")}
-    </div>
     </form>
 </div>
+
+
 """
 
 # ---------------------------------------------------------
