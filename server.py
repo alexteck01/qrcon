@@ -108,8 +108,8 @@ def scan():
     storico = carica_da_supabase(id_oggetto)
     evento = determina_evento(storico)
     ora = registra_evento(id_oggetto, storico, evento)
-    
-   return f"""
+
+    return f"""
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="/static/style.css">
 
