@@ -109,53 +109,42 @@ def scan():
     evento = determina_evento(storico)
     ora = registra_evento(id_oggetto, storico, evento)
 
-    return f"""
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="/static/style.css">
-
-<!-- BOX EVENTO -->
+    return f"""  
 <div class="container">
     <div class="box">
-        <div class="title">Ale</div>
-        Evento registrato: <b>{evento}</b><br>
-        {ora}<br>
+        <div class="title">QRCON</div>
+        🟢 Evento registrato<br>
+        {ora}
     </div>
-</div>
 
-<!-- BOX CHECKLIST -->
-<div class="container">
     <div class="box">
-        <div class="title">Checklist</div>
-        Assicurazione 12/10<br>
-        Scadenza revisione 12/10<br>
-        Scadenza bollo<br>
-        Vignetta svizzera 12/10<br>
-        Licenza - OK<br>
-        Libretto - OK<br>
-    </div>
-</div>
-
-<!-- BOX SEGNALAZIONI + FORM -->
-<div class="container">
-    <div class="box">
-        <div class="title">Segnalazioni</div>
-
-        <form action="/salva_note" method="POST">
-            <input type="hidden" name="id" value="{id_oggetto}">
-            <textarea name="note" rows="10" style="width:70%;">{note_correnti}</textarea>
-            <button type="submit">Salva</button>
-        </form>
-    </div>
-</div>
-
-<!-- BOX STORICO -->
-<div class="container">
-    <div class="box">
-        <div class="title">Storico</div>
+        <div class="title">📜 Storico</div>
         {storico_testo.replace("\\n", "<br>")}
     </div>
+
+    <form action="/salva_note" method="POST">
+        <input type="hidden" name="id" value="{id_oggetto}">
+
+        <div class="box">
+            <div class="title">Checklist</div>
+            Scadenza assicurazione<br>
+            Scadenza revisione<br>
+            Scadenza bollo<br>
+            Vignetta svizzera<br>
+            Licenza - OK<br>
+            Libretto - OK<br>
+        </div>
+
+        <div class="box">
+            <div class="title">Segnalazioni</div>
+            <textarea name="note" rows="8">{note_correnti}</textarea>
+        </div>
+
+        <button type="submit">💾 Salva</button>
+    </form>
 </div>
 """
+ 
 
 # ---------------------------------------------------------
 # QRCON → mostra storico e note (NON registra eventi)
