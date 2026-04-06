@@ -144,7 +144,7 @@ return f"""
 <!-- BOX STORICO -->
 <div class="container">
     <div class="box">
-        <div class="title">📜 Storico</div>
+        <div class="title">&#128220; Storico</div>
         <div class="list">
             {''.join(f'<div class="list-item">{r["evento"]} — {r["ora"]}</div>' for r in storico)}
         </div>
@@ -163,7 +163,7 @@ return f"""
             <label><input type="checkbox" name="c2"> Verifica stato</label>
             <label><input type="checkbox" name="c3"> Segnalazioni aperte</label>
 
-            <button class="btn" type="submit">💾 Salva</button>
+            <button class="btn" type="submit">&#128190 Salva</button>
         </form>
     </div>
 </div>
