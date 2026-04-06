@@ -137,19 +137,23 @@ def qrcon():
     storico_testo = "<br>".join([f"{e[0]} – {e[1]}" for e in eventi])
 
     return f"""
+return f"""
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="/static/style.css">
 
+<!-- BOX STORICO -->
 <div class="container">
     <div class="box">
         <div class="title">📜 Storico</div>
-                <div class="list">
+        <div class="list">
             {''.join(f'<div class="list-item">{r["evento"]} — {r["ora"]}</div>' for r in storico)}
         </div>
 
         <a class="btn" href="/scan?id={id_oggetto}">Torna alla scansione</a>
     </div>
 </div>
+
+<!-- BOX CHECKLIST -->
 <div class="container">
     <div class="box">
         <div class="title">Checklist</div>
@@ -159,11 +163,12 @@ def qrcon():
             <label><input type="checkbox" name="c2"> Verifica stato</label>
             <label><input type="checkbox" name="c3"> Segnalazioni aperte</label>
 
-            <button class="btn" type="submit">Salva</button>
+            <button class="btn" type="submit">💾 Salva</button>
         </form>
     </div>
 </div>
 
+<!-- BOX SEGNALAZIONI -->
 <div class="container">
     <div class="box">
         <div class="title">Segnalazioni</div>
@@ -174,9 +179,6 @@ def qrcon():
 
         <a class="btn" href="/qrcon?id={id_oggetto}">Torna allo storico</a>
     </div>
-</div>
-        <button type="submit">💾 Salva</button>
-    </form>
 </div>
 """
 
