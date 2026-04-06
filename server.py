@@ -110,17 +110,16 @@ def scan():
     ora = registra_evento(id_oggetto, storico, evento)
 
     return f"""  
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/static/style.css">
+
 <div class="container">
     <div class="box">
-        <div class="title">QRCON</div>
-        🟢 Evento registrato<br>
-        {ora}
+        <div class="title">Ale</div>
+        🟢 Evento registrato: <b>{evento}</b><br>
+        {ora}<br>
     </div>
-
-    <div class="box">
-        <div class="title">📜 Storico</div>
-        {storico_testo.replace("\\n", "<br>")}
-    </div>
+</div>
 
     <form action="/salva_note" method="POST">
         <input type="hidden" name="id" value="{id_oggetto}">
@@ -142,9 +141,13 @@ def scan():
 
         <button type="submit">💾 Salva</button>
     </form>
+
+    <div class="box">
+        <div class="title">📜 Storico</div>
+        {storico_testo.replace("\\n", "<br>")}
+    </div>
 </div>
 """
- 
 
 # ---------------------------------------------------------
 # QRCON → mostra storico e note (NON registra eventi)
