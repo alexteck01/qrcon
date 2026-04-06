@@ -4,7 +4,7 @@ from flask import Flask, request
 from datetime import datetime
 import pytz
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="qrcod")
 
 # ---------------------------------------------------------
 # CONFIGURAZIONE SUPABASE
