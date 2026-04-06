@@ -52,6 +52,7 @@ a {
 a:active {
     opacity: 0.6;
 }
+
 /* Reset iOS */
 html, body {
     margin: 0;
