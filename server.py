@@ -140,12 +140,12 @@ def scan():
         </div>
 
         <button type="submit">💾 Salva</button>
-    </form>
 
     <div class="box">
         <div class="title">📜 Storico</div>
         {storico_testo.replace("\\n", "<br>")}
     </div>
+    </form>
 </div>
 """
 
