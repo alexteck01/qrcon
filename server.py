@@ -4,7 +4,7 @@ from flask import Flask, request
 from datetime import datetime
 import pytz
 
-app = Flask(__name__, static_folder="qrcod")
+app = Flask(__name__, static_folder="qrcon")
 
 # ---------------------------------------------------------
 # CONFIGURAZIONE SUPABASE
@@ -111,7 +111,7 @@ def scan():
     
     return f"""
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="/qrcod/style.css">
+<link rel="stylesheet" href="/qrcon/style.css">
 
 
 
