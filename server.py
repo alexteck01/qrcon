@@ -141,6 +141,8 @@ def qrcon():
 
     return f"""
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/static/style.css">
+
 
 <div class="container">
     <div class="box">
