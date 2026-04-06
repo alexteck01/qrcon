@@ -118,6 +118,7 @@ def scan():
         <div class="title">Ale</div>
         🟢 Evento registrato: <b>{evento}</b><br>
         {ora}<br>
+    </div>
 
         <div class="box">
             <div class="title">Checklist</div>
@@ -135,7 +136,7 @@ def scan():
         </div>
 
         <button type="submit">💾 Salva</button>
-    </form>
+        </form>
       </div>   
            <div class="box">
         <div class="title">📜 Storico</div>
@@ -145,7 +146,6 @@ def scan():
     <form action="/salva_note" method="POST">
         <input type="hidden" name="id" value="{id_oggetto}">
     </div>
-</div>
 """
 
 # ---------------------------------------------------------
