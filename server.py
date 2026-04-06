@@ -135,51 +135,37 @@ def qrcon():
     note_correnti = storico["note"]
 
     storico_testo = "<br>".join([f"{e[0]} – {e[1]}" for e in eventi])
-    
+
     return f"""
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <div class="box">
+        <div class="title">📜 Storico</div>
+        {storico_testo.replace("\\n", "<br>")}
+    </div>
 
-<!-- BOX STORICO -->
-<div class="container">
-    <div class="box">
-        <div class="title">Storico</div>
+    <form action="/salva_note" method="POST">
+        <input type="hidden" name="id" value="{id_oggetto}">
 
-        <div class="list">
-            {''.join(f'<div class="list-item">{e[0]} — {e[1]}</div>' for e in eventi)}
+        <div class="box">
+            <div class="title">Checklist</div>
+            Scadenza assicurazione<br>
+            Scadenza revisione<br>
+            Scadenza bollo<br>
+            Vignetta svizzera<br>
+            Licenza - OK<br>
+            Libretto - OK<br>
         </div>
 
-        <a class="btn" href="/scan?id={id_oggetto}">Torna alla scansione</a>
-    </div>
-</div>
-
-<!-- BOX CHECKLIST -->
-<div class="container">
-    <div class="box">
-        <div class="title">Checklist</div>
-
-        <form class="checklist" method="POST">
-            <label><input type="checkbox" name="c1"> Controllo documenti</label>
-            <label><input type="checkbox" name="c2"> Verifica stato</label>
-            <label><input type="checkbox" name="c3"> Segnalazioni aperte</label>
-
-            <button class="btn" type="submit">Salva</button>
-        </form>
-    </div>
-</div>
-
-<!-- BOX SEGNALAZIONI -->
-<div class="container">
-    <div class="box">
-        <div class="title">Segnalazioni</div>
-
-        <div class="list">
-            {''.join(f'<div class="list-item">{s}</div>' for s in note_correnti)}
+        <div class="box">
+            <div class="title">Segnalazioni</div>
+            <textarea name="note" rows="8">{note_correnti}</textarea>
         </div>
 
-        <a class="btn" href="/qrcon?id={id_oggetto}">Torna allo storico</a>
-    </div>
+        <button type="submit">💾 Salva</button>
+    </form>
 </div>
 """
+
+    
 
 # ---------------------------------------------------------
 # AVVIO SERVER
