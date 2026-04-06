@@ -149,25 +149,23 @@ def qrcon():
 
         <div class="box">
             <div class="title">Checklist</div>
-            Scadenza assicurazione<br>
-            Scadenza revisione<br>
+            Assicurazione 12/10<br>
+            Scadenza revisione12/10<br>
             Scadenza bollo<br>
-            Vignetta svizzera<br>
+            Vignetta svizzera 12/10<br>
             Licenza - OK<br>
             Libretto - OK<br>
         </div>
 
         <div class="box">
             <div class="title">Segnalazioni</div>
-            <textarea name="note" rows="16">{note_correnti}</textarea>
+            <textarea name="note" rows="10" style="width:70%";>{note_correnti}</textarea>
         </div>
 
         <button type="submit">💾 Salva</button>
     </form>
 </div>
 """
-
-    
 
 # ---------------------------------------------------------
 # AVVIO SERVER
