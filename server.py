@@ -159,7 +159,7 @@ def qrcon():
 
         <div class="box">
             <div class="title">Segnalazioni</div>
-            <textarea name="note" rows="8">{note_correnti}</textarea>
+            <textarea name="note" rows="16">{note_correnti}</textarea>
         </div>
 
         <button type="submit">💾 Salva</button>
