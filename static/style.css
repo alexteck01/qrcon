@@ -25,6 +25,7 @@ html, body {
     border-radius: 16px;
     box-shadow: 0 4px 14px rgba(0,0,0,0.10);
     text-align: center;
+    margin-top: 8px;
 }
 
 /* TITOLI */
