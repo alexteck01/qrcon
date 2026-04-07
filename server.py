@@ -140,22 +140,15 @@ def scan():
     <div class="container">
     <div class="box">
 
-        <details style="margin-bottom:15px;">
-            <summary class="summary-arrow" style="cursor:pointer; font-size:18px; font-weight:600;">
-                <span class="arrow" style="transition:0.2s;">▶</span> Checklist
-            </summary>
-
-            <div style="font-size:16px; line-height:1.6; margin-left:10px; margin-top:10px;">
-                Scadenza assicurazione<br>
-                Scadenza revisione<br>
-                Scadenza bollo<br>
-                Vignetta svizzera<br>
-                Licenza<br>
-            </div>
-        </details>
-
+    <div class="container">
+        <div class="box">
+            <div class="title">Checklist</div>
+            Licenza - OK<br>
+            Libretto - OK<br>
+            Assicurazione: 25/8<br>
+            Vignetta svizzera<br>
+        </div>
     </div>
-</div>
 
             
     <div class="container">
