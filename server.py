@@ -73,7 +73,7 @@ def registra_evento(id_oggetto, storico, evento):
     ora = datetime.now(roma).strftime("%d/%m/%Y – %H:%M:%S")
     salva_su_supabase(id_oggetto, {"evento": evento, "timestamp": ora})
     return ora
-    
+
 # ---------------------------------------------------------
 # SALVA NOTE
 # ---------------------------------------------------------
@@ -109,13 +109,60 @@ def scan():
     evento = determina_evento(storico)
     ora = registra_evento(id_oggetto, storico, evento)
 
-    # ricostruisco storico e note
     eventi = storico["eventi"]
     note_correnti = storico["note"]
     storico_testo = "<br>".join([f"{e[0]} – {e[1]}" for e in eventi])
 
+    return f"""
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/static/style.css">
+
+<div class="container">
+    <div class="box">
+        <div class="title">Ale</div>
+        Evento registrato: <b>{evento}</b><br>
+        {ora}<br>
+        <a href="/qrcon?id={id_oggetto}">Vai allo storico</a>
+    </div>
+</div>
+
+<div class="container">
+    <div class="box">
+        <div class="title">Storico</div>
+        {storico_testo}
+    </div>
+</div>
+
+<form action="/salva_note" method="POST">
+    <input type="hidden" name="id" value="{id_oggetto}">
+
+    <div class="container">
+        <div class="box">
+            <div class="title">Checklist</div>
+            Scadenza assicurazione<br>
+            Scadenza revisione<br>
+            Scadenza bollo<br>
+            Vignetta svizzera<br>
+            Licenza - OK<br>
+            Libretto - OK<br>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="box">
+            <div class="title">Segnalazioni</div>
+            <textarea name="note" rows="8">{note_correnti}</textarea>
+        </div>
+    </div>
+
+    <div class="container">
+        <button type="submit">Salva</button>
+    </div>
+</form>
+"""
+
 # ---------------------------------------------------------
-# QRCON → mostra storico e note (NON registra eventi)
+# QRCON → mostra storico e note
 # ---------------------------------------------------------
 @app.route("/qrcon")
 def qrcon():
@@ -127,29 +174,21 @@ def qrcon():
 
     storico_testo = "<br>".join([f"{e[0]} – {e[1]}" for e in eventi])
 
-#html--------------------------------------------------------------
     return f"""
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="/qrcod/style.css">
+<link rel="stylesheet" href="/static/style.css">
 
 <div class="container">
     <div class="box">
-        <div class="title">Ale</div>
-        '🟢' Evento registrato: <b>{evento}</b><br>
-        {ora}<br>
-        <a href="/qrcon?id={id_oggetto}">'📄' Vai allo storico</a>
+        <div class="title">Storico</div>
+        {storico_testo}
     </div>
 </div>
 
-<div class="container">
-    <div class="box">
-        <div class="title">'📜' Storico</div>
-        {storico_testo}
-    </div>
+<form action="/salva_note" method="POST">
+    <input type="hidden" name="id" value="{id_oggetto}">
 
-    <form action="/salva_note" method="POST">
-        <input type="hidden" name="id" value="{id_oggetto}">
-
+    <div class="container">
         <div class="box">
             <div class="title">Checklist</div>
             Scadenza assicurazione<br>
@@ -159,15 +198,19 @@ def qrcon():
             Licenza - OK<br>
             Libretto - OK<br>
         </div>
+    </div>
 
+    <div class="container">
         <div class="box">
             <div class="title">Segnalazioni</div>
             <textarea name="note" rows="8">{note_correnti}</textarea>
         </div>
+    </div>
 
-        <button type="submit">'💾' Salva</button>
-    </form>
-</div>
+    <div class="container">
+        <button type="submit">Salva</button>
+    </div>
+</form>
 """
 
 # ---------------------------------------------------------
