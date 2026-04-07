@@ -87,7 +87,7 @@ def salva_note():
     return f"""
 <pre>
 Note salvate correttamente per {id_oggetto}.
-<a href="/qrcon?id={id_oggetto}">⬅ Torna indietro</a>
+<a href="/scan?id={id_oggetto}">⬅ Torna indietro</a>
 </pre>
 """
 
@@ -131,9 +131,8 @@ def scan():
     <div class="container">
         <div class="box">
             <div class="title">Checklist</div>
-            Scadenza assicurazione<br>
-            Scadenza revisione<br>
-            Scadenza bollo<br>
+            assicurazione<br>
+            revisione<br>
             Vignetta svizzera<br>
             Licenza - OK<br>
             Libretto - OK<br>
@@ -143,7 +142,7 @@ def scan():
     <div class="container">
         <div class="box">
             <div class="title">Segnalazioni</div>
-            <textarea name="note" rows="8">{note_correnti}</textarea>
+            <textarea name="note" rows="10" style="width:70%;">{note_correnti}</textarea>
         </div>
     </div>
 
