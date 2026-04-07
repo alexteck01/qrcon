@@ -121,9 +121,25 @@ def scan():
     note_correnti = storico["note"]
     storico_testo = "<br>".join([f"{e[0]} – {e[1]}" for e in eventi])
 
+# ---------------------------------------------------------
+# QRCON → mostra storico e note (NON registra eventi)
+# ---------------------------------------------------------
+@app.route("/qrcon")
+def qrcon():
+    id_oggetto = request.args.get("id")
+
+    storico = carica_da_supabase(id_oggetto)
+    eventi = storico["eventi"]
+    note_correnti = storico["note"]
+
+    storico_testo = "<br>".join([f"{e[0]} – {e[1]}" for e in eventi])
+
+#----------------------------------------------------------------------
+#HTML
+#----------------------------------------------------------------------
     return f"""
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="/static/style.css">
+
 
 <div class="container">
     <div class="box">
@@ -168,20 +184,6 @@ def scan():
     </div>
 </form>
 """
-
-# ---------------------------------------------------------
-# QRCON → mostra storico e note (NON registra eventi)
-# ---------------------------------------------------------
-@app.route("/qrcon")
-def qrcon():
-    id_oggetto = request.args.get("id")
-
-    storico = carica_da_supabase(id_oggetto)
-    eventi = storico["eventi"]
-    note_correnti = storico["note"]
-
-    storico_testo = "<br>".join([f"{e[0]} – {e[1]}" for e in eventi])
-
 
 # ---------------------------------------------------------
 # AVVIO SERVER
