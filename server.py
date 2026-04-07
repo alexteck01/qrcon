@@ -152,7 +152,7 @@ def scan():
     <div class="container">
         <div class="box">
             <div class="title">Segnalazioni</div>
-            <textarea name="note" rows="10" style="width:70%;">{note_correnti}</textarea>
+            <textarea name="note" rows="10" style="width:85%;">{note_correnti}</textarea>
         </div>
     </div>
 
