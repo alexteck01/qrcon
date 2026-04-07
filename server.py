@@ -156,10 +156,12 @@ def scan():
             <div class="title">📝Segnalazioni</div>
             <textarea name="note" rows="10" style="width:85%;">{note_correnti}</textarea>
         </div>
+  </div>
 
+        <div class="container">
         <button type="submit">Salva</button>
     </div>
-  </div>
+
 </form>
 <div class="container">
     <div class="box">
