@@ -108,31 +108,43 @@ def scan():
     storico = carica_da_supabase(id_oggetto)
     evento = determina_evento(storico)
     ora = registra_evento(id_oggetto, storico, evento)
+@app.route("/scan")
+def scan():
+    id_oggetto = request.args.get("id")
 
-    return f"""  
+    storico = carica_da_supabase(id_oggetto)
+    evento = determina_evento(storico)
+    ora = registra_evento(id_oggetto, storico, evento)
+
+    # ricostruisco storico e note
+    eventi = storico["eventi"]
+    note_correnti = storico["note"]
+    storico_testo = "<br>".join([f"{e[0]} – {e[1]}" for e in eventi])
+
+    return f"""
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="/static/style.css">
 
 <div class="container">
     <div class="box">
         <div class="title">Ale</div>
-        🟢 Evento registrato: <b>{evento}</b><br>
+        Evento registrato: <b>{evento}</b><br>
         {ora}<br>
-        <a href="/qrcon?id={id_oggetto}">📄 Vai allo storico</a>
+        <a href="/qrcon?id={id_oggetto}">Vai allo storico</a>
     </div>
 </div>
-        </div>
 
-
+<div class="container">
     <div class="box">
-        <div class="title">📜 Storico</div>
-        {storico_testo.replace("\\n", "<br>")}
-    </div
-        </div>
+        <div class="title">Storico</div>
+        {storico_testo}
+    </div>
+</div>
 
-    <form action="/salva_note" method="POST">
-        <input type="hidden" name="id" value="{id_oggetto}">
+<form action="/salva_note" method="POST">
+    <input type="hidden" name="id" value="{id_oggetto}">
 
+    <div class="container">
         <div class="box">
             <div class="title">Checklist</div>
             Scadenza assicurazione<br>
@@ -142,15 +154,19 @@ def scan():
             Licenza - OK<br>
             Libretto - OK<br>
         </div>
+    </div>
 
+    <div class="container">
         <div class="box">
             <div class="title">Segnalazioni</div>
             <textarea name="note" rows="8">{note_correnti}</textarea>
         </div>
+    </div>
 
-        <button type="submit">💾 Salva</button>
-    </form>
-</div>
+    <div class="container">
+        <button type="submit">Salva</button>
+    </div>
+</form>
 """
 
 # ---------------------------------------------------------
