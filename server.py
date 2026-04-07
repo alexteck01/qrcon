@@ -140,7 +140,7 @@ def qrcon():
 <div class="container">
     <div class="box">
         <div class="title">Ale</div>
-        🟢 Evento registrato: <b>{evento}</b><br>
+        '🟢' Evento registrato: <b>{evento}</b><br>
         {ora}<br>
         <a href="/qrcon?id={id_oggetto}">📄 Vai allo storico</a>
     </div>
