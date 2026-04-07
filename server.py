@@ -134,20 +134,27 @@ def qrcon():
 
     storico_testo = "<br>".join([f"{e[0]} – {e[1]}" for e in eventi])
 #html--------------------------------------------------------------
-    return f"""
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/qrcod/style.css">
 
 <div class="container">
     <div class="box">
-        <div class="title">Storico</div>
-        {storico_testo}
+        <div class="title">Ale</div>
+        🟢 Evento registrato: <b>{evento}</b><br>
+        {ora}<br>
+        <a href="/qrcon?id={id_oggetto}">📄 Vai allo storico</a>
     </div>
 </div>
 
-<form action="/salva_note" method="POST">
-    <input type="hidden" name="id" value="{id_oggetto}">
+<div class="container">
+    <div class="box">
+        <div class="title">📜 Storico</div>
+        {storico_testo}
+    </div>
 
-    <div class="container">
+    <form action="/salva_note" method="POST">
+        <input type="hidden" name="id" value="{id_oggetto}">
+
         <div class="box">
             <div class="title">Checklist</div>
             Scadenza assicurazione<br>
@@ -157,20 +164,18 @@ def qrcon():
             Licenza - OK<br>
             Libretto - OK<br>
         </div>
-    </div>
 
-    <div class="container">
         <div class="box">
             <div class="title">Segnalazioni</div>
             <textarea name="note" rows="8">{note_correnti}</textarea>
         </div>
-    </div>
 
-    <div class="container">
-        <button type="submit">Salva</button>
-    </div>
-</form>
+        <button type="submit">💾 Salva</button>
+    </form>
+</div>
 """
+
+
 # ---------------------------------------------------------
 # AVVIO SERVER
 # ---------------------------------------------------------
