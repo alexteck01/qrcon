@@ -134,8 +134,7 @@ def qrcon():
 
     storico_testo = "<br>".join([f"{e[0]} – {e[1]}" for e in eventi])
 
-
-html--------------------------------------------------------------
+#html--------------------------------------------------------------
     return f"""
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="/qrcod/style.css">
@@ -177,7 +176,6 @@ html--------------------------------------------------------------
     </form>
 </div>
 """
-
 
 # ---------------------------------------------------------
 # AVVIO SERVER
