@@ -1,1 +1,27 @@
+/* Box stile iOS */
+.box {
+    width: 360px; /* Perfetto per 6.1" */
+    background: #ffffff;
+    padding: 22px;
+    border-radius: 16px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.10);
+    text-align: center;
+}
 
+/* Titolo */
+.title {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+/* Testo */
+.box b {
+    font-size: 20px;
+    display: block;
+    margin-bottom: 5px;
+}
+
+a:active {
+    opacity: 0.6;
+}
