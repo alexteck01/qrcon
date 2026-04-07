@@ -137,6 +137,8 @@ def scan():
 
 <form action="/salva_note" method="POST">
     <input type="hidden" name="id" value="{id_oggetto}">
+    
+   <div class= "container"> 
     <details style="margin-bottom:15px;">
   <summary class="summary-arrow">
       <span class="arrow" style="transition:0.2s;">▶</span> Checklist
@@ -151,10 +153,7 @@ def scan():
        Licenza<br>
   </div>
 </details>
-
-
-
-    
+    </div>
 
     <div class="container">
         <div class="box">
