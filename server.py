@@ -139,16 +139,12 @@ def scan():
     <input type="hidden" name="id" value="{id_oggetto}">
     
 <div class= "container"> 
-    <details style="margin-bottom:15px;">
-  <summary class="summary-arrow">
       <span class="arrow" style="transition:0.2s;">▶</span> Checklist
-  </summary>
   <br>
       Libretto<br>
       Licenza<br>
       assicurazione<br>
       Vignetta svizzera<br>
-     </details>
 </div>
 
     <div class="container">
