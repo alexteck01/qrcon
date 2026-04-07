@@ -141,11 +141,10 @@ def scan():
     <div class="container">
         <div class="box">
             <div class="title">Checklist</div>
-            assicurazione<br>
-            revisione<br>
-            Vignetta svizzera<br>
             Licenza - OK<br>
             Libretto - OK<br>
+            assicurazione: 12/1/27<br>
+            Vignetta svizzera: 1/31/28<br>
         </div>
     </div>
 
