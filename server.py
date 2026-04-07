@@ -87,7 +87,7 @@ def salva_note():
     return f"""
 <pre>
 Note salvate correttamente per {id_oggetto}.
-<a href="/scan?id={id_oggetto}">⬅ Torna indietro</a>
+<a href="/scan?id={id_oggetto}&noevent=1">⬅ Torna indietro</a>
 </pre>
 """
 
@@ -104,10 +104,20 @@ def home():
 @app.route("/scan")
 def scan():
     id_oggetto = request.args.get("id")
+    noevent = request.args.get("noevent")
 
     storico = carica_da_supabase(id_oggetto)
-    evento = determina_evento(storico)
-    ora = registra_evento(id_oggetto, storico, evento)
+
+    # Se noevent=1 → NON registriamo IN/OUT
+    if noevent == "1":
+        if storico["eventi"]:
+            evento, ora = storico["eventi"][-1]
+        else:
+            evento, ora = "Nessun evento", ""
+    else:
+        # registra IN/OUT normalmente
+        evento = determina_evento(storico)
+        ora = registra_evento(id_oggetto, storico, evento)
 
     eventi = storico["eventi"]
     note_correnti = storico["note"]
