@@ -121,12 +121,14 @@ def scan():
         <a href="/qrcon?id={id_oggetto}">📄 Vai allo storico</a>
     </div>
 </div>
+        </div>
 
 
     <div class="box">
         <div class="title">📜 Storico</div>
         {storico_testo.replace("\\n", "<br>")}
-    </div>
+    </div
+        </div>
 
     <form action="/salva_note" method="POST">
         <input type="hidden" name="id" value="{id_oggetto}">
