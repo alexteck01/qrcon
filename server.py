@@ -108,13 +108,6 @@ def scan():
     storico = carica_da_supabase(id_oggetto)
     evento = determina_evento(storico)
     ora = registra_evento(id_oggetto, storico, evento)
-@app.route("/scan")
-def scan():
-    id_oggetto = request.args.get("id")
-
-    storico = carica_da_supabase(id_oggetto)
-    evento = determina_evento(storico)
-    ora = registra_evento(id_oggetto, storico, evento)
 
     # ricostruisco storico e note
     eventi = storico["eventi"]
