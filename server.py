@@ -133,22 +133,9 @@ def qrcon():
     note_correnti = storico["note"]
 
     storico_testo = "<br>".join([f"{e[0]} – {e[1]}" for e in eventi])
-
-#----------------------------------------------------------------------
-#HTML
-#----------------------------------------------------------------------
+#html--------------------------------------------------------------
     return f"""
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-
-<div class="container">
-    <div class="box">
-        <div class="title">Ale</div>
-        Evento registrato: <b>{evento}</b><br>
-        {ora}<br>
-        <a href="/qrcon?id={id_oggetto}">Vai allo storico</a>
-    </div>
-</div>
 
 <div class="container">
     <div class="box">
@@ -184,7 +171,6 @@ def qrcon():
     </div>
 </form>
 """
-
 # ---------------------------------------------------------
 # AVVIO SERVER
 # ---------------------------------------------------------
