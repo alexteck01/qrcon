@@ -198,12 +198,11 @@ def qrcon():
     <div class="container">
         <div class="box">
             <div class="title">Checklist</div>
-            Scadenza assicurazione<br>
-            Scadenza revisione<br>
-            Scadenza bollo<br>
-            Vignetta svizzera<br>
+            assicurazione: 12/1/27<br>
             Licenza - OK<br>
             Libretto - OK<br>
+            Libretto: OK<br>
+            Vignetta svizzera: 31/1/27<br>
         </div>
     </div>
 
