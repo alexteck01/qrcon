@@ -144,15 +144,11 @@ def scan():
       <span class="arrow" style="transition:0.2s;">▶</span> Checklist
   </summary>
   <br>
-
-  <div style="font-size:16px; line-height:1.6; margin-left:20px;">
-      Scadenza assicurazione<br>
-      Scadenza revisione<br>
-      Scadenza bollo<br>
+      Libretto<br>
+      Licenza<br>
+      assicurazione<br>
       Vignetta svizzera<br>
-       Licenza<br>
-  </div>
-</details>
+     </details>
     </div>
 
     <div class="container">
