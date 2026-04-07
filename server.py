@@ -137,16 +137,27 @@ def scan():
 
 <form action="/salva_note" method="POST">
     <input type="hidden" name="id" value="{id_oggetto}">
-    
-<div class= "container"> 
-      <span class="arrow" style="transition:0.2s;">▶</span> Checklist
-  <br>
-      Libretto<br>
-      Licenza<br>
-      assicurazione<br>
-      Vignetta svizzera<br>
+    <div class="container">
+    <div class="box">
+
+        <details style="margin-bottom:15px;">
+            <summary class="summary-arrow" style="cursor:pointer; font-size:18px; font-weight:600;">
+                <span class="arrow" style="transition:0.2s;">▶</span> Checklist
+            </summary>
+
+            <div style="font-size:16px; line-height:1.6; margin-left:10px; margin-top:10px;">
+                Scadenza assicurazione<br>
+                Scadenza revisione<br>
+                Scadenza bollo<br>
+                Vignetta svizzera<br>
+                Licenza<br>
+            </div>
+        </details>
+
+    </div>
 </div>
 
+            
     <div class="container">
         <div class="box">
             <div class="title">📝Segnalazioni</div>
