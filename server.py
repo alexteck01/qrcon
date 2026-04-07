@@ -137,20 +137,28 @@ def scan():
 
 <form action="/salva_note" method="POST">
     <input type="hidden" name="id" value="{id_oggetto}">
+    <details style="margin-bottom:15px;">
+  <summary class="summary-arrow">
+      <span class="arrow" style="transition:0.2s;">▶</span> Checklist
+  </summary>
+  <br>
+
+  <div style="font-size:16px; line-height:1.6; margin-left:20px;">
+      Scadenza assicurazione<br>
+      Scadenza revisione<br>
+      Scadenza bollo<br>
+      Vignetta svizzera<br>
+       Licenza<br>
+  </div>
+</details>
+
+
+
+    
 
     <div class="container">
         <div class="box">
-            <div class="title">Checklist</div>
-            Licenza - OK<br>
-            Libretto - OK<br>
-            assicurazione: 12/1/27<br>
-            Vignetta svizzera: 1/31/28<br>
-        </div>
-    </div>
-
-    <div class="container">
-        <div class="box">
-            <div class="title">Segnalazioni</div>
+            <div class="title">📝Segnalazioni</div>
             <textarea name="note" rows="10" style="width:85%;">{note_correnti}</textarea>
         </div>
     </div>
@@ -161,7 +169,7 @@ def scan():
 </form>
 <div class="container">
     <div class="box">
-        <div class="title">Storico</div>
+        <div class="title">📜Storico</div>
         {storico_testo}
     </div>
 </div>
