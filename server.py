@@ -114,8 +114,8 @@ def scan():
             evento, ora = storico["eventi"][-1]
         else:
             evento, ora = "Nessun evento", ""
-      else:
-      evento = determina_evento(storico)
+    else:
+        evento = determina_evento(storico)
 
     # 🔥 BLOCCO DOPPIA RICHIESTA ENTRO 1 SECONDO
     if is_duplicato(storico, evento):
@@ -204,18 +204,6 @@ def qrcon():
 </div>
 
 <form action="/salva_note" method="POST">
-    <input type="hidden" name="id" value="{id_oggetto}">
-
-    <div class="container">
-        <div class="box">
-            <div class="title">Checklist</div>
-            assicurazione: 12/1/27<br>
-            Licenza - OK<br>
-            Libretto - OK<br>
-            Libretto: OK<br>
-            Vignetta svizzera: 31/1/27<br>
-        </div>
-    </div>
 
     <div class="container">
         <div class="box">
