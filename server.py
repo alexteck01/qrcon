@@ -139,19 +139,8 @@ def scan():
     <input type="hidden" name="id" value="{id_oggetto}">
     <div class="container">
     <div class="box">
-
-    <div class="container">
-        <div class="box">
-            <div class="title">Checklist</div>
-            Licenza - OK<br>
-            Libretto - OK<br>
-            Assicurazione: 25/8<br>
-            Vignetta svizzera<br>
-        </div>
-    </div>
-
-            
-    <div class="container">
+    
+       <div class="container">
         <div class="box">
             <div class="title">📝Segnalazioni</div>
             <textarea name="note" rows="10" style="width:85%;">{note_correnti}</textarea><br>
