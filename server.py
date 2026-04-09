@@ -114,14 +114,34 @@ def scan():
             evento, ora = storico["eventi"][-1]
         else:
             evento, ora = "Nessun evento", ""
-    else:
-        # registra IN/OUT normalmente
-        evento = determina_evento(storico)
-        ora = registra_evento(id_oggetto, storico, evento)
+     else:
+      evento = determina_evento(storico)
+
+    # 🔥 BLOCCO DOPPIA RICHIESTA ENTRO 1 SECONDO
+    if is_duplicato(storico, evento):
+        return "<pre>Evento ignorato (duplicato)</pre>"
+
+    ora = registra_evento(id_oggetto, storico, evento)
 
     eventi = storico["eventi"]
     note_correnti = storico["note"]
     storico_testo = "<br>".join([f"{e[0]} – {e[1]}" for e in eventi])
+       def is_duplicato(storico, nuovo_evento):
+    if not storico["eventi"]:
+        return False
+
+    ultimo_evento, ultimo_ts = storico["eventi"][-1]
+
+    # Se l’ultimo evento è diverso → non è duplicato
+    if ultimo_evento != nuovo_evento:
+        return False
+
+    dt_ultimo = datetime.strptime(ultimo_ts, "%d/%m/%Y – %H:%M:%S")
+    roma = pytz.timezone("Europe/Rome")
+    adesso = datetime.now(roma)
+
+    # BLOCCO entro 1 secondo
+    return (adesso - dt_ultimo).total_seconds() < 1
 
     return f"""
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
