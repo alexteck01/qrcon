@@ -126,7 +126,7 @@ def scan():
     eventi = storico["eventi"]
     note_correnti = storico["note"]
     storico_testo = "<br>".join([f"{e[0]} – {e[1]}" for e in eventi])
-       def is_duplicato(storico, nuovo_evento):
+def is_duplicato(storico, nuovo_evento):
     if not storico["eventi"]:
         return False
 
@@ -191,32 +191,6 @@ def qrcon():
     note_correnti = storico["note"]
 
     storico_testo = "<br>".join([f"{e[0]} – {e[1]}" for e in eventi])
-
-    return f"""
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="/static/style.css">
-
-<div class="container">
-    <div class="box">
-        <div class="title">Storico</div>
-        {storico_testo}
-    </div>
-</div>
-
-<form action="/salva_note" method="POST">
-
-    <div class="container">
-        <div class="box">
-            <div class="title">Segnalazioni</div>
-            <textarea name="note" rows="8">{note_correnti}</textarea>
-        </div>
-    </div>
-
-    <div class="container">
-        <button type="submit">Salva</button>
-    </div>
-</form>
-"""
 
 # ---------------------------------------------------------
 # AVVIO SERVER
