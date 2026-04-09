@@ -101,6 +101,9 @@ def home():
 # ---------------------------------------------------------
 # SCAN → registra IN/OUT
 # ---------------------------------------------------------
+# ---------------------------------------------------------
+# SCAN → registra IN/OUT
+# ---------------------------------------------------------
 @app.route("/scan")
 def scan():
     id_oggetto = request.args.get("id")
@@ -116,23 +119,12 @@ def scan():
             evento, ora = "Nessun evento", ""
     else:
         evento = determina_evento(storico)
-
-    # 🔥 BLOCCO DOPPIA RICHIESTA ENTRO 1 SECONDO
-    if is_duplicato(storico, evento):
-        return "<pre>Evento ignorato (duplicato)</pre>"
-
-    ora = registra_evento(id_oggetto, storico, evento)
-
-    eventi = storico["eventi"]
-    note_correnti = storico["note"]
-    storico_testo = "<br>".join([f"{e[0]} – {e[1]}" for e in eventi])
-def is_duplicato(storico, nuovo_evento):
+        def is_duplicato(storico, nuovo_evento):
     if not storico["eventi"]:
         return False
 
     ultimo_evento, ultimo_ts = storico["eventi"][-1]
 
-    # Se l’ultimo evento è diverso → non è duplicato
     if ultimo_evento != nuovo_evento:
         return False
 
@@ -142,6 +134,16 @@ def is_duplicato(storico, nuovo_evento):
 
     # BLOCCO entro 1 secondo
     return (adesso - dt_ultimo).total_seconds() < 1
+
+        # 🔥 BLOCCO DOPPIA RICHIESTA ENTRO 1 SECONDO
+        if is_duplicato(storico, evento):
+            return "<pre>Evento ignorato (duplicato)</pre>"
+
+        ora = registra_evento(id_oggetto, storico, evento)
+
+    eventi = storico["eventi"]
+    note_correnti = storico["note"]
+    storico_testo = "<br>".join([f"{e[0]} – {e[1]}" for e in eventi])
 
     return f"""
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -158,19 +160,14 @@ def is_duplicato(storico, nuovo_evento):
 <form action="/salva_note" method="POST">
     <input type="hidden" name="id" value="{id_oggetto}">
     <div class="container">
-    <div class="box">
-    
-       <div class="container">
         <div class="box">
             <div class="title">📝Segnalazioni</div>
             <textarea name="note" rows="10" style="width:85%;">{note_correnti}</textarea><br>
-      <div class="container">
-        <button type="submit">Salva</button>
+            <button type="submit">Salva</button>
         </div>
     </div>
-  </div>
-
 </form>
+
 <div class="container">
     <div class="box">
         <div class="title">📜Storico</div>
@@ -178,7 +175,6 @@ def is_duplicato(storico, nuovo_evento):
     </div>
 </div>
 """
-
 # ---------------------------------------------------------
 # QRCON → mostra storico e note
 # ---------------------------------------------------------
