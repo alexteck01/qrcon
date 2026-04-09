@@ -126,8 +126,6 @@ def scan():
     note_correnti = storico["note"]
     storico_testo = "<br>".join([f"{e[0]} – {e[1]}" for e in eventi])
 
-
-
     return f"""
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="/static/style.css">
@@ -170,7 +168,8 @@ def qrcon():
     note_correnti = storico["note"]
 
     storico_testo = "<br>".join([f"{e[0]} – {e[1]}" for e in eventi])
-        return f"""
+    
+    return f"""
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="/static/style.css">
 
@@ -194,7 +193,6 @@ def qrcon():
     </div>
 </form>
 """
-
 
 # ---------------------------------------------------------
 # AVVIO SERVER
