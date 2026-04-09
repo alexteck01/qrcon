@@ -114,7 +114,7 @@ def scan():
             evento, ora = storico["eventi"][-1]
         else:
             evento, ora = "Nessun evento", ""
-     else:
+      else:
       evento = determina_evento(storico)
 
     # 🔥 BLOCCO DOPPIA RICHIESTA ENTRO 1 SECONDO
