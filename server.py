@@ -101,9 +101,6 @@ def home():
 # ---------------------------------------------------------
 # SCAN → registra IN/OUT
 # ---------------------------------------------------------
-# ---------------------------------------------------------
-# SCAN → registra IN/OUT
-# ---------------------------------------------------------
 @app.route("/scan")
 def scan():
     id_oggetto = request.args.get("id")
@@ -111,7 +108,6 @@ def scan():
 
     storico = carica_da_supabase(id_oggetto)
 
-    # Se noevent=1 → NON registriamo IN/OUT
     if noevent == "1":
         if storico["eventi"]:
             evento, ora = storico["eventi"][-1]
@@ -119,23 +115,8 @@ def scan():
             evento, ora = "Nessun evento", ""
     else:
         evento = determina_evento(storico)
-        def is_duplicato(storico, nuovo_evento):
-    if not storico["eventi"]:
-        return False
 
-    ultimo_evento, ultimo_ts = storico["eventi"][-1]
-
-    if ultimo_evento != nuovo_evento:
-        return False
-
-    dt_ultimo = datetime.strptime(ultimo_ts, "%d/%m/%Y – %H:%M:%S")
-    roma = pytz.timezone("Europe/Rome")
-    adesso = datetime.now(roma)
-
-    # BLOCCO entro 1 secondo
-    return (adesso - dt_ultimo).total_seconds() < 1
-
-        # 🔥 BLOCCO DOPPIA RICHIESTA ENTRO 1 SECONDO
+        # 🔥 BLOCCO duplicati entro 1 secondo
         if is_duplicato(storico, evento):
             return "<pre>Evento ignorato (duplicato)</pre>"
 
@@ -144,6 +125,8 @@ def scan():
     eventi = storico["eventi"]
     note_correnti = storico["note"]
     storico_testo = "<br>".join([f"{e[0]} – {e[1]}" for e in eventi])
+
+
 
     return f"""
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
