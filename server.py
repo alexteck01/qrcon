@@ -125,6 +125,23 @@ def scan():
     eventi = storico["eventi"]
     note_correnti = storico["note"]
     storico_testo = "<br>".join([f"{e[0]} – {e[1]}" for e in eventi])
+    # ---------------------------------------------------------
+# BLOCCO DUPLICATI ENTRO 1 SECONDO
+# ---------------------------------------------------------
+def is_duplicato(storico, nuovo_evento):
+    if not storico["eventi"]:
+        return False
+
+    ultimo_evento, ultimo_ts = storico["eventi"][-1]
+
+    if ultimo_evento != nuovo_evento:
+        return False
+
+    dt_ultimo = datetime.strptime(ultimo_ts, "%d/%m/%Y – %H:%M:%S")
+    roma = pytz.timezone("Europe/Rome")
+    adesso = datetime.now(roma)
+
+    return (adesso - dt_ultimo).total_seconds() < 1
 
     return f"""
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
