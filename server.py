@@ -88,8 +88,7 @@ def is_duplicato(storico, nuovo_evento):
 # REGISTRA EVENTO
 # ---------------------------------------------------------
 def registra_evento(id_oggetto, storico, evento):
-    roma = pytz.timezone("Europe/Rome")
-    ora = datetime.now(pytz.timezone("Europe/Rome")).strftime("%d/%m/%Y – %H:%M:%S")
+    ora = datetime.utcnow().astimezone(pytz.timezone("Europe/Rome")).strftime("%d/%m/%Y – %H:%M:%S")
     salva_su_supabase(id_oggetto, {"evento": evento, "timestamp": ora})
     return ora
 
