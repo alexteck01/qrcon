@@ -139,8 +139,8 @@ def scan():
         if is_duplicato(storico, evento):
             return "<pre>Evento ignorato (duplicato)</pre>"
 
-       ora = registra_evento(id_oggetto, storico, evento)
-       return redirect(f"/scan?id={id_oggetto}&noevent=1")
+    ora = registra_evento(id_oggetto, storico, evento)
+    return redirect(f"/scan?id={id_oggetto}&noevent=1")
 
     eventi = storico["eventi"]
     note_correnti = storico["note"]
