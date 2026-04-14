@@ -156,6 +156,13 @@ def scan():
     </div>
 </div>
 
+<div class="container">
+    <div class="box">
+        <div class="title">📜Storico</div>
+        {storico_testo}
+    </div>
+</div>
+
 <form action="/salva_note" method="POST">
     <input type="hidden" name="id" value="{id_oggetto}">
     <div class="container">
@@ -166,13 +173,6 @@ def scan():
         </div>
     </div>
 </form>
-
-<div class="container">
-    <div class="box">
-        <div class="title">📜Storico</div>
-        {storico_testo}
-    </div>
-</div>
 """
 
 # ---------------------------------------------------------
