@@ -1,52 +1,30 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f2f2f2;
-    margin: 0;
-    padding: 0;
-}
-
-.container {
+/* Box dello storico */
+.storico-list {
     width: 100%;
+    text-align: left;
+    /* Rimosso max-height e overflow per eliminare lo scroll */
+}
+
+/* Singola riga dell'evento */
+.storico-item {
     display: flex;
-    justify-content: center;
-    margin-top: 20px;
+    justify-content: space-between; /* Mette l'evento a sinistra e la data a destra */
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 15px;
 }
 
-.box {
-    background: white;
-    width: 90%;
-    max-width: 500px;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.15);
-    text-align: center;
+.storico-item:last-child {
+    border-bottom: none; /* Toglie la linea all'ultimo elemento */
 }
 
-.title {
-    font-size: 22px;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-
-textarea {
-    width: 90%;
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
+.storico-item b {
+    color: #007aff; /* Colore blu per IN/OUT */
     font-size: 16px;
 }
 
-button {
-    margin-top: 10px;
-    padding: 10px 20px;
-    background-color: black;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #333;
+.storico-item span {
+    color: #8e8e93; /* Colore grigio per l'orario */
+    font-size: 13px;
 }
