@@ -58,15 +58,8 @@ def scan():
 
     return render_template_string(f"""
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <style>
-            body {{ font-family: sans-serif; padding: 20px; background: #f4f4f9; text-align: center; }}
-            .box {{ background: white; padding: 15px; border-radius: 10px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); text-align: left; }}
-            .center {{ text-align: center; }}
-            textarea {{ width: 100%; box-sizing: border-box; padding: 10px; margin-top: 10px; border-radius: 5px; border: 1px solid #ccc; font-family: inherit; }}
-            button {{ background: #28a745; color: white; padding: 12px; border: none; border-radius: 5px; width: 100%; margin-top: 10px; font-weight: bold; cursor: pointer; }}
-            .status-val {{ font-size: 1.8rem; color: #007bff; margin: 5px 0; }}
-        </style>
-
+        <link rel="stylesheet" href="/static/style.css">
+        
         <div class="box center">
             <h3 style="margin:0;">📍 Stato Attuale</h3>
             <p class="status-val"><b>{{{{evento_attuale}}}}</b></p>
