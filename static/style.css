@@ -15,7 +15,7 @@ html, body {
     display: flex;
     flex-direction: column; /* Impila i box verticalmente */
     align-items: center;    /* Centra i box orizzontalmente */
-    padding-top: 10px;
+    padding-top: 5px;
     padding-bottom: 40px;   /* Spazio extra in fondo per scorrere la pagina */
 }
 
@@ -24,7 +24,7 @@ html, body {
     width: 360px; 
     max-width: 90%; 
     background: #ffffff;
-    padding: 22px;
+    padding: 20px;
     border-radius: 16px;
     box-shadow: 0 4px 14px rgba(0,0,0,0.10);
     text-align: center;
@@ -61,7 +61,7 @@ html, body {
 
 .storico-item {
     border-bottom: 1px solid #f2f2f7;
-    padding: 12px 0;
+    padding: 8px 0;
     font-size: 15px;
     display: flex;
     justify-content: space-between; /* Mette evento a sinistra e ora a destra */
