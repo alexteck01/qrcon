@@ -66,14 +66,23 @@ def scan():
             <small>{{{{ora_attuale}}}}</small>
         </div>
 
-        <div class="container">
-        <div class="box">
-         <div class="title">📜 Storico</div>
-        <div class="storico-list">
-            {storico_testo}
-             </div>
-          </div>
-        </div>
+       # ... dentro la funzione scan() ...
+
+       # Creiamo le righe dello storico una sotto l'altra
+       storico_testo = "".join([
+           f'<div class="storico-item"><b>{e["evento"]}</b> <span>{e["timestamp"]}</span></div>' 
+           for e in eventi[:10]
+])
+
+       return render_template_string
+       <div class="container">
+           <div class="box">
+               <div class="title">📜 Storico</div>
+               <div class="storico-list">
+                   {storico_testo}
+               </div>
+           </div>
+       </div>
 
         <div class="box">
             <h3 style="margin-top:0;">📝 Note</h3>
