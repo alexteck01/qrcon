@@ -13,18 +13,23 @@ html, body {
 .container {
     width: 100%;
     display: flex;
-    justify-content: center;
-    margin-top: 5px;
+    flex-direction: column; /* Impila i box verticalmente */
+    align-items: center;    /* Centra i box orizzontalmente */
+    padding-top: 10px;
+    padding-bottom: 30px;
 }
 
 /* Box stile iOS */
 .box {
-    width: 360px; /* Perfetto per 6.1" */
+    width: 360px; /* Ottimizzato per display 6.1" */
+    max-width: 90%; /* Protezione per schermi più piccoli */
     background: #ffffff;
     padding: 22px;
     border-radius: 16px;
     box-shadow: 0 4px 14px rgba(0,0,0,0.10);
     text-align: center;
+    margin-bottom: 15px; /* Spazio tra i box */
+    box-sizing: border-box;
 }
 
 /* Titolo */
@@ -32,15 +37,62 @@ html, body {
     font-size: 22px;
     font-weight: 600;
     margin-bottom: 12px;
+    color: #1d1d1f;
 }
 
-/* Testo */
+/* Testo e Stato */
 .box b {
     font-size: 20px;
     display: block;
     margin-bottom: 5px;
+    color: #007aff; /* Colore tipico iOS */
 }
 
-a:active {
+.timestamp {
+    color: #8e8e93;
+    font-size: 14px;
+}
+
+/* Lista Storico */
+.storico-list {
+    max-height: 180px;
+    overflow-y: auto;
+    text-align: left;
+}
+
+.storico-item {
+    border-bottom: 1px solid #f2f2f7;
+    padding: 10px 0;
+    font-size: 15px;
+}
+
+/* Form e Segnalazioni */
+textarea {
+    width: 100%;
+    border-radius: 10px;
+    border: 1px solid #d1d1d6;
+    padding: 12px;
+    font-family: inherit;
+    font-size: 16px;
+    box-sizing: border-box;
+    background: #fafafa;
+    -webkit-appearance: none; /* Rimuove ombre di default iOS */
+}
+
+button {
+    background: #007aff;
+    color: white;
+    border: none;
+    padding: 14px;
+    border-radius: 12px;
+    width: 100%;
+    font-weight: 600;
+    font-size: 17px;
+    margin-top: 15px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+button:active, a:active {
     opacity: 0.6;
 }
