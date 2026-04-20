@@ -29,7 +29,6 @@ def ottieni_dati(id_oggetto):
 @app.route("/scan")
 def scan():
     id_oggetto = request.args.get("id")
-    # Aggiungiamo questo parametro per capire se stiamo solo visualizzando (dopo il salvataggio note)
     solo_visualizza = request.args.get("noevent") 
     
     if not id_oggetto: return "ID mancante", 400
@@ -37,16 +36,18 @@ def scan():
     eventi, note = ottieni_dati(id_oggetto)
     ora_attuale = get_ora_italia()
     
-    # --- LOGICA AUTOMATICA (Solo se noevent NON è presente) ---
+    # --- LOGICA AUTOMATICA ---
     registra = False
     if not solo_visualizza:
         registra = True
         if eventi:
-            ultimo_ts = datetime.strptime(eventi[0]['timestamp'], "%d/%m/%Y – %H:%M:%S")
-            ultimo_ts = pytz.timezone("Europe/Rome").localize(ultimo_ts)
-            # Se sono passati meno di 10 secondi, è un duplicato
-            if (ora_attuale - ultimo_ts).total_seconds() < 10:
-                registra = False
+            try:
+                ultimo_ts = datetime.strptime(eventi[0]['timestamp'], "%d/%m/%Y – %H:%M:%S")
+                ultimo_ts = pytz.timezone("Europe/Rome").localize(ultimo_ts)
+                if (ora_attuale - ultimo_ts).total_seconds() < 10:
+                    registra = False
+            except:
+                pass
 
     if registra:
         nuovo_tipo = "OUT" if (eventi and eventi[0].get("evento") == "IN") else "IN"
@@ -54,45 +55,40 @@ def scan():
         requests.post(SUPABASE_URL, headers=HEADERS, json=payload)
         eventi, _ = ottieni_dati(id_oggetto)
 
-    storico_html = "".join([f"<div style='border-bottom:1px solid #eee; padding:5px 0;'><b>{e['evento']}</b> - {e['timestamp']}</div>" for e in eventi[:10]])
+    # Creiamo le righe dello storico (senza scroll, una sotto l'altra)
+    storico_testo = "".join([
+        f'<div class="storico-item"><b>{e["evento"]}</b> <span>{e["timestamp"]}</span></div>' 
+        for e in eventi[:10]
+    ])
 
     return render_template_string(f"""
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="/static/style.css">
         
-        <div class="box center">
-            <h3 style="margin:0;">📍 Stato Attuale</h3>
-            <p class="status-val"><b>{{{{evento_attuale}}}}</b></p>
-            <small>{{{{ora_attuale}}}}</small>
+        <div class="container">
+            <div class="box">
+                <div class="title">📍 Stato Attuale</div>
+                <b>{eventi[0]['evento'] if eventi else "Nessuno"}</b>
+                <div class="timestamp">{eventi[0]['timestamp'] if eventi else ""}</div>
+            </div>
+
+            <div class="box">
+                <div class="title">📜 Storico</div>
+                <div class="storico-list">
+                    {storico_testo}
+                </div>
+            </div>
+
+            <div class="box">
+                <div class="title">📝 Note</div>
+                <form action="/salva_note" method="POST">
+                    <input type="hidden" name="id" value="{id_oggetto}">
+                    <textarea name="note" rows="4">{note}</textarea>
+                    <button type="submit">SALVA NOTE</button>
+                </form>
+            </div>
         </div>
-
-       # ... dentro la funzione scan() ...
-
-       # Creiamo le righe dello storico una sotto l'altra
-       storico_testo = "".join([
-           f'<div class="storico-item"><b>{e["evento"]}</b> <span>{e["timestamp"]}</span></div>' 
-           for e in eventi[:10]
-])
-
-       return render_template_string
-       <div class="container">
-           <div class="box">
-               <div class="title">📜 Storico</div>
-               <div class="storico-list">
-                   {storico_testo}
-               </div>
-           </div>
-       </div>
-
-        <div class="box">
-            <h3 style="margin-top:0;">📝 Note</h3>
-            <form action="/salva_note" method="POST">
-                <input type="hidden" name="id" value="{id_oggetto}">
-                <textarea name="note" rows="4">{note}</textarea>
-                <button type="submit">SALVA NOTE</button>
-            </form>
-        </div>
-    """, evento_attuale=eventi[0]['evento'] if eventi else "Nessuno", ora_attuale=eventi[0]['timestamp'] if eventi else "")
+    """)
 
 @app.route("/salva_note", methods=["POST"])
 def salva_note():
@@ -100,8 +96,7 @@ def salva_note():
     testo = request.form.get("note")
     payload = {"id_oggetto": id_oggetto, "dati": {"note": testo}}
     requests.post(SUPABASE_URL, headers=HEADERS, json=payload)
-    # Fondamentale: aggiungiamo &noevent=1 per non far scattare il cambio IN/OUT
     return redirect(f"/scan?id={id_oggetto}&noevent=1")
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="0.0.0.0", port=5000, debug=True)
