@@ -66,10 +66,14 @@ def scan():
             <small>{{{{ora_attuale}}}}</small>
         </div>
 
-        <div class="box">
-            <h3 style="margin-top:0;">📜 Storico</h3>
-            <div style="max-height: 150px; overflow-y: auto;">{storico_html}</div>
+    <div class="container">
+    <div class="box">
+        <div class="title">📜 Storico</div>
+        <div class="storico-list">
+            {storico_testo}
         </div>
+    </div>
+</div>
 
         <div class="box">
             <h3 style="margin-top:0;">📝 Note</h3>
