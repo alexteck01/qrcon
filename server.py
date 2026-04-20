@@ -1,222 +1,91 @@
-import json
 import requests
-from flask import Flask, request
-from datetime import datetime
-from flask import redirect
+from flask import Flask, request, redirect, render_template_string
+from datetime import datetime, timedelta
 import pytz
 
 app = Flask(__name__)
 
-# ---------------------------------------------------------
-# CONFIGURAZIONE SUPABASE
-# ---------------------------------------------------------
-SUPABASE_URL = "https://uqcjspndheidokixwrqb.supabase.co"
+# --- CONFIGURAZIONE ---
+SUPABASE_URL = "https://uqcjspndheidokixwrqb.supabase.co/rest/v1/storico"
 SUPABASE_KEY = "sb_publishable_5TO_BNQMyBjG_Om8uKgkmA_wuOlEjxS"
-SUPABASE_TABLE = "storico"
-
-headers = {
+HEADERS = {
     "apikey": SUPABASE_KEY,
     "Authorization": f"Bearer {SUPABASE_KEY}",
-    "Content-Type": "application/json",
-    "Prefer": "return=representation"
+    "Content-Type": "application/json"
 }
 
-# ---------------------------------------------------------
-# SALVA SU SUPABASE
-# ---------------------------------------------------------
-def salva_su_supabase(id_oggetto, dati):
-    url = f"{SUPABASE_URL}/rest/v1/{SUPABASE_TABLE}"
-    payload = {"id_oggetto": id_oggetto, "dati": dati}
-    return requests.post(url, headers=headers, json=payload).json()
+def get_ora_italia():
+    return datetime.now(pytz.timezone("Europe/Rome"))
 
-# ---------------------------------------------------------
-# CARICA DA SUPABASE
-# ---------------------------------------------------------
-def carica_da_supabase(id_oggetto):
-    url = f"{SUPABASE_URL}/rest/v1/{SUPABASE_TABLE}?id_oggetto=eq.{id_oggetto}&select=*&order=created_at.asc"
-    righe = requests.get(url, headers=headers).json()
+def ottieni_dati(id_oggetto):
+    res = requests.get(f"{SUPABASE_URL}?id_oggetto=eq.{id_oggetto}&order=created_at.desc", headers=HEADERS).json()
+    eventi = [r['dati'] for r in res if 'evento' in r.get('dati', {})]
+    note = next((r['dati']['note'] for r in res if 'note' in r.get('dati', {})), "")
+    return eventi, note
 
-    if not righe:
-        return {"eventi": [], "note": ""}
-
-    eventi = []
-    note = ""
-
-    for r in righe:
-        dati = r["dati"]
-        if isinstance(dati, str):
-            try:
-                dati = json.loads(dati)
-            except:
-                continue
-
-        if "evento" in dati and "timestamp" in dati:
-            eventi.append((dati["evento"], dati["timestamp"]))
-
-        if "note" in dati:
-            note = dati["note"]
-
-    return {"eventi": eventi, "note": note}
-
-# ---------------------------------------------------------
-# DETERMINA IN/OUT
-# ---------------------------------------------------------
-def determina_evento(storico):
-    if not storico["eventi"]:
-        return "IN"
-    return "IN" if storico["eventi"][-1][0] == "OUT" else "OUT"
-
-# ---------------------------------------------------------
-# BLOCCO DUPLICATI ENTRO 1 SECONDO
-# ---------------------------------------------------------
-def is_duplicato(storico, nuovo_evento):
-    if not storico["eventi"]:
-        return False
-
-    ultimo_evento, ultimo_ts = storico["eventi"][-1]
-
-    if ultimo_evento != nuovo_evento:
-        return False
-
-    dt_ultimo = datetime.strptime(ultimo_ts, "%d/%m/%Y – %H:%M:%S")
-    roma = pytz.timezone("Europe/Rome")
-    adesso = datetime.now(roma)
-
-    return (adesso - dt_ultimo).total_seconds() < 1
-
-# ---------------------------------------------------------
-# REGISTRA EVENTO
-# ---------------------------------------------------------
-def registra_evento(id_oggetto, storico, evento):
-    ora = datetime.utcnow().astimezone(pytz.timezone("Europe/Rome")).strftime("%d/%m/%Y – %H:%M:%S")
-    salva_su_supabase(id_oggetto, {"evento": evento, "timestamp": ora})
-    return ora
-
-# ---------------------------------------------------------
-# SALVA NOTE
-# ---------------------------------------------------------
-@app.route("/salva_note", methods=["POST"])
-def salva_note():
-    id_oggetto = request.form.get("id")
-    testo_note = request.form.get("note", "")
-
-    salva_su_supabase(id_oggetto, {"note": testo_note})
-
-    return f"""
-<pre>
-Note salvate correttamente per {id_oggetto}.
-<a href="/scan?id={id_oggetto}&noevent=1">⬅ Torna indietro</a>
-</pre>
-"""
-
-# ---------------------------------------------------------
-# HOME
-# ---------------------------------------------------------
-@app.route("/")
-def home():
-    return "QRCON server attivo"
-
-# ---------------------------------------------------------
-# SCAN → registra IN/OUT
-# ---------------------------------------------------------
 @app.route("/scan")
 def scan():
     id_oggetto = request.args.get("id")
-    noevent = request.args.get("noevent")
+    if not id_oggetto: return "ID mancante", 400
 
-    storico = carica_da_supabase(id_oggetto)
+    eventi, note = ottieni_dati(id_oggetto)
+    ora_attuale = get_ora_italia()
+    
+    # --- LOGICA AUTOMATICA CON BLOCCO DUPLICATI (10 SECONDI) ---
+    registra = True
+    if eventi:
+        # Recupera l'ora dell'ultimo evento
+        ultimo_ts = datetime.strptime(eventi[0]['timestamp'], "%d/%m/%Y – %H:%M:%S")
+        ultimo_ts = pytz.timezone("Europe/Rome").localize(ultimo_ts)
+        # Se sono passati meno di 10 secondi, NON registrare (è un pre-caricamento del browser)
+        if (ora_attuale - ultimo_ts).total_seconds() < 10:
+            registra = False
 
-    if noevent == "1":
-        if storico["eventi"]:
-            evento, ora = storico["eventi"][-1]
-        else:
-            evento, ora = "Nessun evento", ""
-    else:
-        evento = determina_evento(storico)
+    if registra:
+        nuovo_tipo = "OUT" if (eventi and eventi[0].get("evento") == "IN") else "IN"
+        payload = {"id_oggetto": id_oggetto, "dati": {"evento": nuovo_tipo, "timestamp": ora_attuale.strftime("%d/%m/%Y – %H:%M:%S")}}
+        requests.post(SUPABASE_URL, headers=HEADERS, json=payload)
+        eventi, _ = ottieni_dati(id_oggetto) # Aggiorna la lista dopo l'inserimento
 
-        # 🔥 BLOCCO duplicati entro 1 secondo
-        if is_duplicato(storico, evento):
-            return "<pre>Evento ignorato (duplicato)</pre>"
+    storico_html = "".join([f"<div style='border-bottom:1px solid #eee; padding:5px 0;'><b>{e['evento']}</b> - {e['timestamp']}</div>" for e in eventi[:10]])
 
-        ora = registra_evento(id_oggetto, storico, evento)
-        return redirect(f"/scan?id={id_oggetto}&noevent=1")
+    return render_template_string(f"""
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            body {{ font-family: sans-serif; padding: 20px; background: #f4f4f9; }}
+            .box {{ background: white; padding: 15px; border-radius: 10px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }}
+            textarea {{ width: 100%; box-sizing: border-box; padding: 10px; margin-top: 10px; border-radius: 5px; border: 1px solid #ccc; }}
+            button {{ background: #28a745; color: white; padding: 10px; border: none; border-radius: 5px; width: 100%; margin-top: 10px; font-weight: bold; }}
+        </style>
 
-    eventi = storico["eventi"]
-    note_correnti = storico["note"]
-    storico_testo = "<br>".join([f"{e[0]} – {e[1]}" for e in eventi])
-
-    return f"""
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="/static/style.css">
-
-<div class="container">
-    <div class="box">
-        Evento registrato: <b>{evento}</b><br>
-        {ora}<br>
-    </div>
-</div>
-
-<div class="container">
-    <div class="box">
-        <div class="title">📜Storico</div>
-        {storico_testo}
-    </div>
-</div>
-
-<form action="/salva_note" method="POST">
-    <input type="hidden" name="id" value="{id_oggetto}">
-    <div class="container">
         <div class="box">
-            <div class="title">📝Segnalazioni</div>
-            <textarea name="note" rows="8" style="width:85%;">{note_correnti}</textarea><br>
-            <button type="submit">Salva</button>
+            <h3>📍 Ultimo Movimento</h3>
+            <p style="font-size: 1.5rem; color: #007bff; margin: 0;"><b>{{{{evento_attuale}}}}</b></p>
+            <small>{{{{ora_attuale}}}}</small>
         </div>
-    </div>
-</form>
-"""
 
-# ---------------------------------------------------------
-# QRCON → mostra storico e note
-# ---------------------------------------------------------
-@app.route("/qrcon")
-def qrcon():
-    id_oggetto = request.args.get("id")
-
-    storico = carica_da_supabase(id_oggetto)
-    eventi = storico["eventi"]
-    note_correnti = storico["note"]
-
-    storico_testo = "<br>".join([f"{e[0]} – {e[1]}" for e in eventi])
-
-    return f"""
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="/static/style.css">
-
-<div class="container">
-    <div class="box">
-        <div class="title">Storico</div>
-        {storico_testo}
-    </div>
-</div>
-
-<form action="/salva_note" method="POST">
-    <input type="hidden" name="id" value="{id_oggetto}">
-    <div class="container">
         <div class="box">
-            <div class="title">Segnalazioni</div>
-            <textarea name="note" rows="8">{note_correnti}</textarea>
+            <h3>📜 Storico</h3>
+            {storico_html}
         </div>
-    </div>
-    <div class="container">
-        <button type="submit">Salva</button>
-    </div>
-</form>
-"""
 
-# ---------------------------------------------------------
-# AVVIO SERVER
-# ---------------------------------------------------------
+        <div class="box">
+            <h3>📝 Note</h3>
+            <form action="/salva_note" method="POST">
+                <input type="hidden" name="id" value="{id_oggetto}">
+                <textarea name="note" rows="4">{note}</textarea>
+                <button type="submit">SALVA NOTE</button>
+            </form>
+        </div>
+    """, evento_attuale=eventi[0]['evento'] if eventi else "Nessuno", ora_attuale=eventi[0]['timestamp'] if eventi else "")
+
+@app.route("/salva_note", methods=["POST"])
+def salva_note():
+    id_oggetto = request.form.get("id")
+    testo = request.form.get("note")
+    payload = {"id_oggetto": id_oggetto, "dati": {"note": testo}}
+    requests.post(SUPABASE_URL, headers=HEADERS, json=payload)
+    return redirect(f"/scan?id={id_oggetto}")
+
 if __name__ == "__main__":
-    import os
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+    app.run(host="0.0.0.0", port=5000)
